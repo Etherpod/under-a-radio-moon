@@ -402,3 +402,6 @@ FodyWeavers.xsd
 
 # Asset bundles
 Jam5Project/planets/assets/*
+
+# Keep .gitkeep files
+!.gitkeep
