@@ -1,25 +1,19 @@
 {
   "$schema": "https://raw.githubusercontent.com/Outer-Wilds-New-Horizons/new-horizons/main/NewHorizons/Schemas/body_schema.json",
-  "name": "T-0187",
+  "name": "PlanetSwitcherBase",
   "starSystem": "Jam5",
 
   "Base": {
-    "surfaceSize": 125,
-    "surfaceGravity": 14
-  },
-
-  "Orbit": {
-    "primaryBody": "PlanetSwitcherBase",
-    "semiMajorAxis": 1000,
-    "siderealPeriod": 1.5,
-    "isStatic": false
+    "centerOfSolarSystem": true,
+    "surfaceGravity": 12,
+    "surfaceSize": 250
   },
 
   "Props": {
     "details": [
       {
         "assetBundle": "planets/assets/jam5project",
-        "path": "Assets/Jam5Project/PlanetTest.prefab",
+        "path": "Assets/Jam5Project/PlanetStates.prefab",
         "position": {
           "x": 0,
           "y": 0,
@@ -31,6 +25,10 @@
   },
 
   "MapMarker": {
-    "enabled": true
+    "enabled": false
+  },
+
+  "ReferenceFrame": {
+    "enabled":  false
   }
 }

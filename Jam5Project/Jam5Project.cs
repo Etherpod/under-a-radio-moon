@@ -1,33 +1,39 @@
 ﻿using OWML.Common;
 using OWML.ModHelper;
 
-namespace Jam5Project
+namespace Jam5Project;
+
+public class Jam5Project : ModBehaviour
 {
-    public class Jam5Project : ModBehaviour
+    public static Jam5Project Instance;
+    public static INewHorizons NHAPI;
+
+    private void Awake()
     {
-        private void Awake()
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        ModHelper.Console.WriteLine($"My mod {nameof(Jam5Project)} is loaded!", MessageType.Success);
+
+        NHAPI = ModHelper.Interaction.TryGetModApi<INewHorizons>("xen.NewHorizons");
+        NHAPI.LoadConfigs(this);
+
+        NHAPI.GetStarSystemLoadedEvent().AddListener(OnStarSystemLoaded);
+    }
+
+    private void OnStarSystemLoaded(string system)
+    {
+        if (system == "Jam5")
         {
-            // You won't be able to access OWML's mod helper in Awake.
-            // So you probably don't want to do anything here.
-            // Use Start() instead.
-        }
-
-        private void Start()
-        {
-            // Starting here, you'll have access to OWML's mod helper.
-            ModHelper.Console.WriteLine($"My mod {nameof(Jam5Project)} is loaded!", MessageType.Success);
-
-            // Get the New Horizons API and load configs
-            var newHorizons = ModHelper.Interaction.TryGetModApi<INewHorizons>("xen.NewHorizons");
-            newHorizons.LoadConfigs(this);
-
-            // Example of accessing game code.
-            LoadManager.OnCompleteSceneLoad += (scene, loadScene) =>
-            {
-                if (loadScene != OWScene.SolarSystem) return;
-                ModHelper.Console.WriteLine("Loaded into solar system!", MessageType.Success);
-            };
+            // We need gravity to put the moon in orbit, but we don't actually want gravity
+            NHAPI.GetPlanet("PlanetSwitcherBase").transform.Find("GravityWell").gameObject.SetActive(false);
         }
     }
 
+    public static void WriteDebugMessage(object msg)
+    {
+        Instance.ModHelper.Console.WriteLine(msg.ToString());
+    }
 }

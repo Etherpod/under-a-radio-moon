@@ -1,5 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
     <OutputPath>$(AppData)\OuterWildsModManager\OWML\Mods\Etherpod.Jam5Project</OutputPath>
+    <UnityProjectDir>$(SolutionDir)\..\ow-assets-jam-5</UnityProjectDir>
+    <UnityProjectModDir>$(UnityProjectDir)\Assets\Dlls</UnityProjectModDir>
   </PropertyGroup>
 </Project>
