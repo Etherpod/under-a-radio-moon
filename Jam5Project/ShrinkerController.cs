@@ -1,14 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class ShrinkerController : MonoBehaviour
 {
-    [SerializeField]
-    private float _minScale = 0.001f;
-    [SerializeField]
-    private Transform _targetTransform;
-    [SerializeField]
-    private Transform _startTransform;
+    /*[SerializeField]
+    private float _minScale = 0.001f;*/
     [SerializeField]
     private GameObject _basePlanet;
 
@@ -18,29 +15,23 @@ public class ShrinkerController : MonoBehaviour
     private bool _hasResetFOV;
     private float _startShrinkTime;
     private float _startDistance;
-    private bool _shrinked = false;
+    private List<ShrunkenPlanet> _shrunkenPlanets = [];
+    private List<Transform> _startPositions = [];
+    private float _startScaleTime;
+    private float _endScaleTime;
 
     private void Start()
     {
         _cameraController = Locator.GetPlayerCamera().GetComponent<PlayerCameraController>();
-        transform.localScale = Vector3.one * _minScale;
+        //transform.localScale = Vector3.one * _minScale;
     }
 
     private void Update()
     {
-        if (!_updateShrink && Keyboard.current.numpadDivideKey.wasPressedThisFrame)
+        if (Keyboard.current.numpadDivideKey.wasPressedThisFrame
+            && !_updateShrink && _shrunkenPlanets.Count > 0 && !_shrunkenPlanets[0].IsShrunk)
         {
-            if (_shrinked)
-            {
-                Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().LockOn(_startTransform, 5f, false, 1f);
-            }
-            else
-            {
-                Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().LockOn(transform, 5f, false, 1f);
-            }
-            OWInput.ChangeInputMode(InputMode.None);
-            _shrinkAfterDelay = true;
-            _startShrinkTime = Time.time + 0.4f;
+            SetShrunken(true, _shrunkenPlanets[0]);
         }
 
         if (_shrinkAfterDelay && Time.time > _startShrinkTime)
@@ -53,23 +44,23 @@ public class ShrinkerController : MonoBehaviour
     {
         if (_updateShrink)
         {
+            bool makeBig = _shrunkenPlanets[0].IsShrunk;
+
             Vector3 toTarget;
-            if (!_shrinked)
+            if (makeBig)
             {
-                toTarget = _targetTransform.position - Locator.GetPlayerTransform().position;
+                toTarget = _shrunkenPlanets[0].GetArrivalPoint().position - Locator.GetPlayerTransform().position;
             }
             else
             {
-                toTarget = _startTransform.position - Locator.GetPlayerTransform().position;
+                toTarget = _startPositions[0].position - Locator.GetPlayerTransform().position;
             }
 
-            Vector3 targetPos = toTarget.normalized * 20f;
+            Vector3 targetPos = toTarget.normalized * 10f;
             Vector3 velocity = Locator.GetPlayerBody().GetVelocity();
-            float num = 50f;
             if (toTarget.magnitude < 7f)
             {
                 targetPos = Vector3.zero;
-                num = 50f;
                 if (!_hasResetFOV)
                 {
                     _cameraController.SnapToInitFieldOfView(0.5f, true);
@@ -77,11 +68,6 @@ public class ShrinkerController : MonoBehaviour
                 }
                 if (velocity.magnitude < 1f)
                 {
-                    if (_shrinked)
-                    {
-                        _basePlanet.SetActive(true);
-                    }
-
                     _hasResetFOV = false;
                     _updateShrink = false;
                     Locator.GetPlayerController().SetColliderActivation(true);
@@ -89,38 +75,97 @@ public class ShrinkerController : MonoBehaviour
                     Locator.GetPlayerDetector().GetComponent<ForceApplier>().SetApplyForces(true);
                     Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().BreakLock();
                     OWInput.ChangeInputMode(InputMode.Character);
-                    _shrinked = !_shrinked;
+                    _shrunkenPlanets[0].IsShrunk = !_shrunkenPlanets[0].IsShrunk;
+
+                    if (!makeBig)
+                    {
+                        var posObj = _startPositions[0];
+                        _startPositions.RemoveAt(0);
+                        Destroy(posObj.gameObject);
+
+                        _shrunkenPlanets[0].SetTempParent(false);
+                        _shrunkenPlanets.RemoveAt(0);
+
+                        if (_shrunkenPlanets.Count == 0)
+                        {
+                            _basePlanet.SetActive(true);
+                        }
+                        else
+                        {
+                            _shrunkenPlanets[0].gameObject.SetActive(true);
+                        }
+                    }
 
                     return;
                 }
             }
-            Vector3 vector3 = Vector3.MoveTowards(velocity, targetPos, num * Time.deltaTime);
-            Locator.GetPlayerBody().AddVelocityChange(vector3 - velocity);
-            float scaleLerp = Mathf.InverseLerp(_startDistance, 7f, toTarget.magnitude);
-            float multStart = _shrinked ? 1f : _minScale;
-            float multEnd = _shrinked ? _minScale : 1f;
-            float smoothStep = Mathf.Lerp(multStart, multEnd, scaleLerp);
-            transform.localScale = Vector3.one * smoothStep;
+            Vector3 nextPos = Vector3.MoveTowards(velocity, targetPos, 50f * Time.deltaTime);
+            Locator.GetPlayerBody().AddVelocityChange(nextPos - velocity);
+            float scaleLerp = Mathf.InverseLerp(_startScaleTime, _endScaleTime, Time.time);
+            if (!makeBig)
+            {
+                scaleLerp = 1 - scaleLerp;
+            }
+            _shrunkenPlanets[0].SetScaleLerp(scaleLerp);
         }
     }
 
     private void StartShrink()
     {
+        /*if (_shrunkenPlanets.Count == 0 || _startPositions.Count == 0)
+        {
+            Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().BreakLock();
+            return;
+        }*/
+
         Locator.GetPlayerController().SetColliderActivation(false);
         Locator.GetPlayerController().LockMovement(false);
         Locator.GetPlayerDetector().GetComponent<ForceApplier>().SetApplyForces(false);
         _cameraController.SetTargetFieldOfView(120f, 2f, true);
-        if (!_shrinked)
+        if (_shrunkenPlanets[0].IsShrunk)
         {
-            _startDistance = (_targetTransform.position - Locator.GetPlayerTransform().position).magnitude;
-            _startTransform.position = Locator.GetPlayerTransform().position;
-            _basePlanet.SetActive(false);
+            _startDistance = (_shrunkenPlanets[0].GetArrivalPoint().position - Locator.GetPlayerTransform().position).magnitude;
+            if (_shrunkenPlanets.Count > 1)
+            {
+                _shrunkenPlanets[0].SetTempParent(true);
+                _shrunkenPlanets[1].gameObject.SetActive(false);
+            }
+            else
+            {
+                _basePlanet.SetActive(false);
+            }
         }
         else
         {
-            _startDistance = (_startTransform.position - Locator.GetPlayerTransform().position).magnitude;
+            _startDistance = (_startPositions[0].position - Locator.GetPlayerTransform().position).magnitude;
         }
         _updateShrink = true;
         _shrinkAfterDelay = false;
+        _startScaleTime = Time.time;
+        _endScaleTime = Time.time + 3f;
+    }
+
+    public void SetShrunken(bool setShrunk, ShrunkenPlanet planet)
+    {
+        if (setShrunk == planet.IsShrunk || _updateShrink) return;
+
+        if (!setShrunk)
+        {
+            var startTransform = new GameObject("ShrinkStartPos").transform;
+            startTransform.parent = _shrunkenPlanets.Count > 0 ? planet.transform : _basePlanet.transform;
+            startTransform.position = Locator.GetPlayerTransform().position;
+            _startPositions.Insert(0, startTransform);
+            _shrunkenPlanets.Insert(0, planet);
+
+            Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().LockOn(planet.transform, 5f, false, 1f);
+        }
+        else
+        {
+            Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().LockOn(_startPositions[0], 5f, false, 1f);
+        }
+
+        OWInput.ChangeInputMode(InputMode.None);
+        _shrinkAfterDelay = true;
+        _startShrinkTime = Time.time + 0.4f;
     }
 }
