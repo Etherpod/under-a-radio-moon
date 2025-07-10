@@ -9,6 +9,10 @@
     "surfaceSize": 250
   },
 
+  "Orbit": {
+    "siderealPeriod": 4
+  },
+
   "Props": {
     "details": [
       {
