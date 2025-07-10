@@ -9,6 +9,7 @@
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <NoWarn>MSB3270</NoWarn>
   </PropertyGroup>
+	
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugType>none</DebugType>
   </PropertyGroup>
@@ -20,10 +21,14 @@
 
     <Message Text="Copy complete" Importance="High" />
   </Target>
+	
+	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
+		<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
+	</ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="OWML" Version="2.9.5" />
-    <PackageReference Include="OuterWildsGameLibs" Version="1.1.13.457" />
+    <PackageReference Include="OuterWildsGameLibs" Version="1.1.15.1018" Publicize="true"/>
   </ItemGroup>
   
   <ItemGroup>
@@ -34,6 +39,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+	
+	<Target BeforeTargets="Build" Name="CreateUserFiles">
+		<Copy Condition="!Exists('Jam5Project.csproj.user')" SourceFiles="Jam5Project.csproj.user.example" DestinationFiles="Jam5Project.csproj.user" />
+	</Target>
   
   <ItemGroup>
     <Content Include="Jam5Project.csproj.user" />
