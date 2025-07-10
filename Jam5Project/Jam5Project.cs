@@ -19,17 +19,6 @@ public class Jam5Project : ModBehaviour
 
         NHAPI = ModHelper.Interaction.TryGetModApi<INewHorizons>("xen.NewHorizons");
         NHAPI.LoadConfigs(this);
-
-        NHAPI.GetStarSystemLoadedEvent().AddListener(OnStarSystemLoaded);
-    }
-
-    private void OnStarSystemLoaded(string system)
-    {
-        if (system == "Jam5")
-        {
-            // We need gravity to put the moon in orbit, but we don't actually want gravity
-            NHAPI.GetPlanet("PlanetSwitcherBase").transform.Find("GravityWell").gameObject.SetActive(false);
-        }
     }
 
     public static void WriteDebugMessage(object msg)

@@ -5,13 +5,12 @@
 
   "Base": {
     "surfaceSize": 125,
-    "surfaceGravity": 14
+    "surfaceGravity": 14,
+    "centerOfSolarSystem": true
   },
 
-  "Orbit": {
-    "primaryBody": "PlanetSwitcherBase",
-    "semiMajorAxis": 1000,
-    "siderealPeriod": 1.5
+  "Atmosphere": {
+    "size": 300
   },
 
   "Props": {
