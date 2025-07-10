@@ -11,8 +11,7 @@
   "Orbit": {
     "primaryBody": "PlanetSwitcherBase",
     "semiMajorAxis": 1000,
-    "siderealPeriod": 1.5,
-    "isStatic": false
+    "siderealPeriod": 1.5
   },
 
   "Props": {

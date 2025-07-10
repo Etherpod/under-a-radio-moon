@@ -5,7 +5,7 @@
 
   "Base": {
     "centerOfSolarSystem": true,
-    "surfaceGravity": 12,
+    "surfaceGravity": 14,
     "surfaceSize": 250
   },
 
