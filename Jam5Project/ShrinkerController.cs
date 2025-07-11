@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+namespace Jam5Project;
+
 public class ShrinkerController : MonoBehaviour
 {
     /*[SerializeField]
@@ -19,6 +21,8 @@ public class ShrinkerController : MonoBehaviour
     private List<Transform> _startPositions = [];
     private float _startScaleTime;
     private float _endScaleTime;
+    private bool _updateScale;
+    private bool _scaleUp;
 
     private void Start()
     {
@@ -38,6 +42,22 @@ public class ShrinkerController : MonoBehaviour
         {
             StartShrink();
         }
+
+        if (_updateScale)
+        {
+            if (_shrunkenPlanets.Count == 0 || Time.time > _endScaleTime)
+            {
+                _updateScale = false;
+                return;
+            }
+
+            float scaleLerp = Mathf.InverseLerp(_startScaleTime, _endScaleTime, Time.time);
+            if (!_scaleUp)
+            {
+                scaleLerp = 1 - scaleLerp;
+            }
+            _shrunkenPlanets[0].SetScaleLerp(scaleLerp);
+        }
     }
 
     private void FixedUpdate()
@@ -56,14 +76,14 @@ public class ShrinkerController : MonoBehaviour
                 toTarget = _startPositions[0].position - Locator.GetPlayerTransform().position;
             }
 
-            Vector3 targetPos = toTarget.normalized * 10f;
+            Vector3 targetPos = toTarget.normalized * 20f;
             Vector3 velocity = Locator.GetPlayerBody().GetVelocity();
             if (toTarget.magnitude < 7f)
             {
                 targetPos = Vector3.zero;
                 if (!_hasResetFOV)
                 {
-                    _cameraController.SnapToInitFieldOfView(0.5f, true);
+                    _cameraController.SnapToInitFieldOfView(1.5f, true);
                     _hasResetFOV = true;
                 }
                 if (velocity.magnitude < 1f)
@@ -101,12 +121,6 @@ public class ShrinkerController : MonoBehaviour
             }
             Vector3 nextPos = Vector3.MoveTowards(velocity, targetPos, 50f * Time.deltaTime);
             Locator.GetPlayerBody().AddVelocityChange(nextPos - velocity);
-            float scaleLerp = Mathf.InverseLerp(_startScaleTime, _endScaleTime, Time.time);
-            if (!makeBig)
-            {
-                scaleLerp = 1 - scaleLerp;
-            }
-            _shrunkenPlanets[0].SetScaleLerp(scaleLerp);
         }
     }
 
@@ -121,7 +135,7 @@ public class ShrinkerController : MonoBehaviour
         Locator.GetPlayerController().SetColliderActivation(false);
         Locator.GetPlayerController().LockMovement(false);
         Locator.GetPlayerDetector().GetComponent<ForceApplier>().SetApplyForces(false);
-        _cameraController.SetTargetFieldOfView(120f, 2f, true);
+        _cameraController.SetTargetFieldOfView(120f, 0.5f, true);
         if (_shrunkenPlanets[0].IsShrunk)
         {
             _startDistance = (_shrunkenPlanets[0].GetArrivalPoint().position - Locator.GetPlayerTransform().position).magnitude;
@@ -141,8 +155,10 @@ public class ShrinkerController : MonoBehaviour
         }
         _updateShrink = true;
         _shrinkAfterDelay = false;
+        _updateScale = true;
+        _scaleUp = _shrunkenPlanets[0].IsShrunk;
         _startScaleTime = Time.time;
-        _endScaleTime = Time.time + 3f;
+        _endScaleTime = Time.time + 5f;
     }
 
     public void SetShrunken(bool setShrunk, ShrunkenPlanet planet)
@@ -157,7 +173,7 @@ public class ShrinkerController : MonoBehaviour
             _startPositions.Insert(0, startTransform);
             _shrunkenPlanets.Insert(0, planet);
 
-            Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().LockOn(planet.transform, 5f, false, 1f);
+            Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().LockOn(planet.GetLookTarget(), 5f, false, 1f);
         }
         else
         {

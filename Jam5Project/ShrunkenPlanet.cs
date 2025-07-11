@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+namespace Jam5Project;
+
 public class ShrunkenPlanet : MonoBehaviour
 {
     [SerializeField]
@@ -7,11 +9,15 @@ public class ShrunkenPlanet : MonoBehaviour
     [SerializeField]
     private Transform _arrivalPoint;
     [SerializeField]
+    private Transform _lookTarget;
+    [SerializeField]
     private Transform _scaleRoot;
     [SerializeField]
     private Transform _expandParent;
     [SerializeField]
     private float _minScale = 0.001f;
+    [SerializeField]
+    private ShrunkenLightData[] _lightsToScale;
 
     private ShrinkerController _shrinkerController;
     private bool _shrunken;
@@ -33,12 +39,14 @@ public class ShrunkenPlanet : MonoBehaviour
     {
         _shrinkerController = FindObjectOfType<ShrinkerController>();
         _defaultParent = transform.parent;
-        SetScaleLerp(_minScale);
-        _shrunken = true;
     }
 
     private void Start()
     {
+        SetScaleLerp(_minScale);
+        _shrunken = true;
+
+        _interactReceiver.ChangePrompt("Enter World");
         _interactReceiver.OnPressInteract += OnPressInteract;
     }
 
@@ -52,10 +60,19 @@ public class ShrunkenPlanet : MonoBehaviour
         return _arrivalPoint;
     }
 
+    public Transform GetLookTarget()
+    {
+        return _lookTarget;
+    }
+
     public void SetScaleLerp(float lerp)
     {
         var scale = Mathf.SmoothStep(_minScale, 1f, lerp);
         _scaleRoot.transform.localScale = Vector3.one * scale;
+        foreach (var light in _lightsToScale)
+        {
+            light.SetRangeScale(scale);
+        }
     }
 
     public void SetTempParent(bool tempParent)
