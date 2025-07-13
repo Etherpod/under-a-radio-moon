@@ -21,10 +21,6 @@
 
     <Message Text="Copy complete" Importance="High" />
   </Target>
-	
-	<ItemGroup Condition="'$(Configuration)' == 'Debug'">
-		<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.2" PrivateAssets="all" />
-	</ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="OWML" Version="2.9.5" />
