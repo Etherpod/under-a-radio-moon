@@ -34,7 +34,7 @@ public class WorldBarrierRepelVolume : MonoBehaviour
 
     private void FixedUpdate()
     {
-        for (int i = 0; i < this._trackedBodies.Count; i++)
+        for (int i = 0; i < _trackedBodies.Count; i++)
         {
             if (!_trackedBodies[i].CompareTag("Player") || !PlayerState.IsInsideShip())
             {
@@ -50,7 +50,8 @@ public class WorldBarrierRepelVolume : MonoBehaviour
 
     private void OnEntry(GameObject hitObj)
     {
-        if ((hitObj.CompareTag("PlayerDetector") || hitObj.CompareTag("ShipDetector") || hitObj.CompareTag("ProbeDetector")) && Vector3.Distance(base.transform.position, hitObj.transform.position) > this._innerRadius)
+        if (hitObj.CompareTag("PlayerDetector") || hitObj.CompareTag("ShipDetector") 
+            || hitObj.CompareTag("ProbeDetector"))
         {
             _trackedBodies.Add(hitObj.GetAttachedOWRigidbody(false));
             enabled = true;
@@ -59,7 +60,8 @@ public class WorldBarrierRepelVolume : MonoBehaviour
 
     private void OnExit(GameObject hitObj)
     {
-        if (hitObj.CompareTag("PlayerDetector") || hitObj.CompareTag("ShipDetector") || hitObj.CompareTag("ProbeDetector"))
+        if (hitObj.CompareTag("PlayerDetector") || hitObj.CompareTag("ShipDetector") 
+            || hitObj.CompareTag("ProbeDetector"))
         {
             _trackedBodies.Remove(hitObj.GetAttachedOWRigidbody(false));
             if (_trackedBodies.Count == 0)

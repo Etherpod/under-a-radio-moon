@@ -15,6 +15,7 @@ public class ShrinkerController : MonoBehaviour
     private bool _updateShrink;
     private bool _shrinkAfterDelay;
     private bool _hasResetFOV;
+    private bool _hasCalledEvent;
     private float _startShrinkTime;
     private float _startDistance;
     private List<ShrunkenPlanet> _shrunkenPlanets = [];
@@ -115,6 +116,11 @@ public class ShrinkerController : MonoBehaviour
                     _cameraController.SnapToInitFieldOfView(5f, true);
                     _hasResetFOV = true;
                 }
+                if (!_zoomIn && !_hasCalledEvent)
+                {
+                    _shrunkenPlanets[0].OnChangeSize(_scaleUp);
+                    _hasCalledEvent = true;
+                }
                 // If moving slower than 1 m/s
                 if (velocity.magnitude < 1f)
                 {
@@ -122,6 +128,7 @@ public class ShrinkerController : MonoBehaviour
                     {
                         // Drop player out of movement
                         _hasResetFOV = false;
+                        _hasCalledEvent = false;
                         _zoomIn = false;
                         _updateShrink = false;
                         Locator.GetPlayerController().SetColliderActivation(true);
