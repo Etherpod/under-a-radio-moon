@@ -6,8 +6,6 @@ namespace Jam5Project;
 public class ShrunkenPlanet : MonoBehaviour
 {
     [SerializeField]
-    private InteractReceiver _interactReceiver;
-    [SerializeField]
     private Transform _arrivalPoint;
     [SerializeField]
     private Transform _lookTarget;
@@ -17,12 +15,15 @@ public class ShrunkenPlanet : MonoBehaviour
     private Transform _expandParent;
     [SerializeField]
     private float _minScale = 0.001f;
+    [SerializeField]
+    private PlanetSigil[] _planetSigils = [];
 
     private ShrinkerController _shrinkerController;
     private bool _shrunken;
     private Transform _defaultParent;
     private List<ShrunkenTriggerVolume> _triggerVolumes = [];
     private List<ShrunkenLightData> _lights = [];
+    private PlanetSigilData _sigilData;
 
     public bool IsShrunk
     {
@@ -40,6 +41,7 @@ public class ShrunkenPlanet : MonoBehaviour
     {
         _shrinkerController = FindObjectOfType<ShrinkerController>();
         _defaultParent = transform.parent;
+        _sigilData = new(_planetSigils);
     }
 
     private void Start()
@@ -71,9 +73,6 @@ public class ShrunkenPlanet : MonoBehaviour
         SetScaleLerp(_minScale);
         OnChangeSize(false);
         _shrunken = true;
-
-        _interactReceiver.ChangePrompt("Enter World");
-        _interactReceiver.OnPressInteract += OnPressInteract;
     }
 
     private T[] GetComponentsUnderPlanet<T>(Transform t)
@@ -94,7 +93,7 @@ public class ShrunkenPlanet : MonoBehaviour
         return list.ToArray();
     }
 
-    private void OnPressInteract()
+    public void OnPressInteract()
     {
         _shrinkerController.SetShrunken(false, this);
     }
@@ -107,6 +106,11 @@ public class ShrunkenPlanet : MonoBehaviour
     public Transform GetLookTarget()
     {
         return _lookTarget;
+    }
+
+    public PlanetSigilData GetSigilData()
+    {
+        return _sigilData;
     }
 
     public void SetScaleLerp(float lerp)
@@ -137,10 +141,5 @@ public class ShrunkenPlanet : MonoBehaviour
         {
             vol.SetVolumeEnabled(makeBig);
         }
-    }
-
-    private void OnDestroy()
-    {
-        _interactReceiver.OnPressInteract -= OnPressInteract;
     }
 }

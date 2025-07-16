@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Jam5Project;
@@ -12,33 +13,61 @@ public class TowerDoorController : MonoBehaviour
     [SerializeField]
     private OWAudioSource _oneShotSource;
     [SerializeField]
-    private OWEmissiveRenderer[] _sigilRenderers;
+    private TowerDoorSigilLock[] _sigilLocks;
     [SerializeField]
     private InteractReceiver _interactReceiver;
 
+    private ShrinkDevice _shrinkDevice;
     private bool _opened = false;
-    private int[] _activatedSigils = new int[3];
+    private Dictionary<TowerDoorSigilLock, PlanetSigil> _lockToSigil = [];
+
+    private void Awake()
+    {
+        _shrinkDevice = FindObjectOfType<ShrinkDevice>();
+        _shrinkDevice.OnSigilsUpdated += OnSigilsUpdated;
+
+        foreach (var sigilLock in _sigilLocks)
+        {
+            _lockToSigil.Add(sigilLock, sigilLock.GetSigil());
+        }
+    }
 
     private void Start()
     {
-        foreach (var rend in _sigilRenderers)
-        {
-            rend.SetEmissiveScale(0f);
-        }
-
         _interactReceiver.ChangePrompt("Open Door");
         _interactReceiver.OnPressInteract += OnPressInteract;
         _interactReceiver.DisableInteraction();
     }
 
-    private void Update()
+    private void OnSigilsUpdated(HashSet<PlanetSigil> newSigils)
     {
-        if (OWInput.IsNewlyPressed(InputLibrary.autopilot))
+        var hasAll = false;
+
+        if (newSigils.Count == 0)
         {
-            for (int i = 0; i <= 2; i++)
+            foreach (var sigilLock in _sigilLocks)
             {
-                SetSigilActive(i, true);
+                sigilLock.SetSigilActive(false);
             }
+            return;
+        }
+
+        foreach (var pair in _lockToSigil)
+        {
+            if (newSigils.Contains(pair.Value))
+            {
+                pair.Key.SetSigilActive(true);
+            }
+            else
+            {
+                hasAll = false;
+                pair.Key.SetSigilActive(false);
+            }
+        }
+
+        if (!_opened && hasAll)
+        {
+            _interactReceiver.EnableInteraction();
         }
     }
 
@@ -49,11 +78,28 @@ public class TowerDoorController : MonoBehaviour
 
     public void OpenDoor()
     {
-        if (_opened || _activatedSigils.Any(num => num == 0)) return;
+        if (_opened || !HasRequiredSigils())
+        {
+            _interactReceiver.DisableInteraction();
+            return;
+        }
 
         _animator.SetTrigger("OpenDoor");
         _interactReceiver.DisableInteraction();
         _opened = true;
+    }
+
+    private bool HasRequiredSigils()
+    {
+        var list = _shrinkDevice.GetActiveSigils();
+        foreach (var sigil in _lockToSigil.Values)
+        {
+            if (!list.Contains(sigil))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public void StartDoorAudio()
@@ -68,17 +114,15 @@ public class TowerDoorController : MonoBehaviour
         _oneShotSource.PlayOneShot(AudioType.NomaiDoorStop);
     }
 
-    // 0: Red
-    // 1: Blue
-    // 2: Green
-    public void SetSigilActive(int index, bool active)
+    public void SetSigilActive(PlanetSigil sigil, bool active)
     {
-        _activatedSigils[index] = active ? 1 : 0;
-        _sigilRenderers[index].SetEmissiveScale(active ? 1 : 0);
-
-        if (!_opened && _activatedSigils.All(num => num == 1))
+        foreach (var sigilLock in _sigilLocks)
         {
-            _interactReceiver.EnableInteraction();
+            if (sigilLock.GetSigil() == sigil)
+            {
+                sigilLock.SetSigilActive(true);
+                break;
+            }
         }
     }
 

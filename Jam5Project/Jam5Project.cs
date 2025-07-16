@@ -24,7 +24,7 @@ public class Jam5Project : ModBehaviour
     {
         Instance = this;
         Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
-        _downloadLength = new System.Random().Next(10, 30);
+        _downloadLength = new System.Random().Next(5, 15);
     }
 
     private void Start()

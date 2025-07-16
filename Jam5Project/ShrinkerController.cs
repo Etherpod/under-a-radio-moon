@@ -192,9 +192,9 @@ public class ShrinkerController : MonoBehaviour
             _startDistance = (_shrunkenPlanets[0].transform.position - Locator.GetPlayerTransform().position).magnitude;
             _initialPlanetRotation = _shrunkenPlanets[0].transform.rotation;
             _initialArrivalPoint = _shrunkenPlanets[0].GetArrivalPoint().transform.position - _shrunkenPlanets[0].transform.position;
+            _shrunkenPlanets[0].SetTempParent(true);
             if (_shrunkenPlanets.Count > 1)
             {
-                _shrunkenPlanets[0].SetTempParent(true);
                 _shrunkenPlanets[1].gameObject.SetActive(false);
             }
             else
