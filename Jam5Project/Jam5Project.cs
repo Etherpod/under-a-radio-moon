@@ -64,6 +64,7 @@ public class Jam5Project : ModBehaviour
 
     public static void WriteDebugMessage(object msg)
     {
+        msg ??= "null";
         Instance.ModHelper.Console.WriteLine(msg.ToString());
     }
 }

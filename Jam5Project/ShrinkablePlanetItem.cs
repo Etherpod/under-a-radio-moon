@@ -36,21 +36,19 @@ public class ShrinkablePlanetItem : OWItem
     public override void DropItem(Vector3 position, Vector3 normal, Transform parent, Sector sector, IItemDropTarget customDropTarget)
     {
         base.DropItem(position, normal, parent, sector, customDropTarget);
-        var planet = GetComponentInParent<ShrunkenPlanet>();
-        if (GetComponentInParent<ShrunkenPlanet>())
+        if (sector != null)
         {
-            planet.GetSigilData().AddChildData(_planetController.GetSigilData());
+            transform.SetParent(sector.transform);
         }
+        var planet = GetComponentInParent<ShrunkenPlanet>();
+        planet?.GetSigilData().AddChildData(_planetController.GetSigilData());
     }
 
     public override void PickUpItem(Transform holdTranform)
     {
-        base.PickUpItem(holdTranform);
         var planet = GetComponentInParent<ShrunkenPlanet>();
-        if (GetComponentInParent<ShrunkenPlanet>())
-        {
-            planet.GetSigilData().RemoveChildData(_planetController.GetSigilData());
-        }
+        planet?.GetSigilData().RemoveChildData(_planetController.GetSigilData());
+        base.PickUpItem(holdTranform);
     }
 
     public ShrunkenPlanet GetPlanet()

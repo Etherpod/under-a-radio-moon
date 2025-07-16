@@ -41,7 +41,7 @@ public class TowerDoorController : MonoBehaviour
 
     private void OnSigilsUpdated(HashSet<PlanetSigil> newSigils)
     {
-        var hasAll = false;
+        var hasAll = true;
 
         if (newSigils.Count == 0)
         {

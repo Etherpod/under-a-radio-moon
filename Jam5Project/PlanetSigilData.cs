@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Jam5Project;
 
@@ -39,11 +40,13 @@ public class PlanetSigilData
 
     public void AddChildData(PlanetSigilData data)
     {
+        Jam5Project.WriteDebugMessage("Add sigil " + data.GetPlanetSigils().ToArray()[0]);
         _childData.Add(data);
     }
 
     public void RemoveChildData(PlanetSigilData data)
     {
+        Jam5Project.WriteDebugMessage("Remove sigil " + data.GetPlanetSigils().ToArray()[0]);
         _childData.Remove(data);
     }
 }
