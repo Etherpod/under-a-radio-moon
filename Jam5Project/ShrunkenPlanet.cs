@@ -14,7 +14,7 @@ public class ShrunkenPlanet : MonoBehaviour
     [SerializeField]
     private Transform _expandParent;
     [SerializeField]
-    private float _minScale = 0.001f;
+    private float _minScale = 0.002f;
     [SerializeField]
     private PlanetSigil[] _planetSigils = [];
 

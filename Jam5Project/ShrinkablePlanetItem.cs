@@ -12,6 +12,8 @@ public class ShrinkablePlanetItem : OWItem
     [SerializeField]
     private ShrunkenPlanet _planetController;
 
+    private ShrinkerController _shrinkerController;
+
     public override void Awake()
     {
         _type = ItemType;
@@ -26,6 +28,10 @@ public class ShrinkablePlanetItem : OWItem
             }
         }
         _colliders = goodColliders.ToArray();
+
+        _shrinkerController = FindObjectOfType<ShrinkerController>();
+        _shrinkerController.OnArriveAtPlanet += OnArriveAtPlanet;
+        _shrinkerController.OnLeavePlanet += OnLeavePlanet;
     }
 
     public override string GetDisplayName()
@@ -51,6 +57,22 @@ public class ShrinkablePlanetItem : OWItem
         base.PickUpItem(holdTranform);
     }
 
+    private void OnLeavePlanet(ShrunkenPlanet planet)
+    {
+        if (planet == _planetController)
+        {
+            SetColliderActivation(false);
+        }
+    }
+
+    private void OnArriveAtPlanet(ShrunkenPlanet planet)
+    {
+        if (planet == _planetController)
+        {
+            SetColliderActivation(true);
+        }
+    }
+
     public ShrunkenPlanet GetPlanet()
     {
         return _planetController;
@@ -58,7 +80,7 @@ public class ShrinkablePlanetItem : OWItem
 
     public void ActivatePlanet()
     {
-        SetColliderActivation(true);
+        //SetColliderActivation(true);
         _planetController.OnPressInteract();
     }
 }

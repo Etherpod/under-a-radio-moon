@@ -167,32 +167,5 @@ public static class Jam5ProjectPatches
                 material.shader = replacementShader;
             }
         }
-        foreach (var sphereRenderer in prefab.GetComponentsInChildren<TessellatedSphereRenderer>())
-        {
-            var material = sphereRenderer._materials[0];
-            Jam5Project.WriteDebugMessage("Checking " + material);
-            if (material == null) continue;
-
-            var replacementShader = Shader.Find(material.shader.name);
-            Jam5Project.WriteDebugMessage("Double checking " + material.shader.name);
-            if (replacementShader == null) continue;
-
-            Jam5Project.WriteDebugMessage("Replacing " + replacementShader.name);
-
-            // preserve override tag and render queue (for Standard shader)
-            // keywords and properties are already preserved
-            if (material.renderQueue != material.shader.renderQueue)
-            {
-                var renderType = material.GetTag("RenderType", false);
-                var renderQueue = material.renderQueue;
-                material.shader = replacementShader;
-                material.SetOverrideTag("RenderType", renderType);
-                material.renderQueue = renderQueue;
-            }
-            else
-            {
-                material.shader = replacementShader;
-            }
-        }
     }
 }

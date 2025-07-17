@@ -6,8 +6,11 @@ namespace Jam5Project;
 
 public class ShrinkerController : MonoBehaviour
 {
-    /*[SerializeField]
-    private float _minScale = 0.001f;*/
+    public delegate void PlanetArriveEvent(ShrunkenPlanet planet);
+    public event PlanetArriveEvent OnArriveAtPlanet;
+    public delegate void PlanetLeaveEvent(ShrunkenPlanet planet);
+    public event PlanetLeaveEvent OnLeavePlanet;
+
     [SerializeField]
     private GameObject _basePlanet;
 
@@ -156,6 +159,10 @@ public class ShrinkerController : MonoBehaviour
                                 _shrunkenPlanets[0].gameObject.SetActive(true);
                             }
                         }
+                        else
+                        {
+                            OnArriveAtPlanet?.Invoke(_shrunkenPlanets[0]);
+                        }
                     }
                     else
                     {
@@ -205,6 +212,7 @@ public class ShrinkerController : MonoBehaviour
         else
         {
             _startDistance = (_startPositions[0].position - Locator.GetPlayerTransform().position).magnitude;
+            OnLeavePlanet?.Invoke(_shrunkenPlanets[0]);
         }
         _updateShrink = true;
         _shrinkAfterDelay = false;
