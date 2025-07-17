@@ -4,6 +4,7 @@ using OWML.ModHelper;
 using OWML.Utils;
 using System.Reflection;
 using UnityEngine;
+using NewHorizons.Utility.Files;
 
 namespace Jam5Project;
 
@@ -43,6 +44,19 @@ public class Jam5Project : ModBehaviour
                 PlayerData.SetPersistentCondition("URM_HAS_ERNESTONIAN_TRANSLATOR", false);
             }
         };
+
+        NHAPI.GetStarSystemLoadedEvent().AddListener(OnStarSystemLoaded);
+    }
+
+    private void OnStarSystemLoaded(string system)
+    {
+        if (system == "Jam5")
+        {
+            // Unwanted stuff
+            var planet = NHAPI.GetPlanet("T-0187");
+            planet.transform.Find("GravityWell").gameObject.SetActive(false);
+            planet.transform.Find("Volumes").gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -120,6 +134,65 @@ public static class Jam5ProjectPatches
             && !__instance._nomaiTextComponent.IsTranslated(__instance._currentTextID))
         {
             __instance._textField.text = TranslationHandler.GetTranslation("<!> Untranslated Ernestonian writing <!>", TranslationHandler.TextType.UI);
+        }
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch(typeof(AssetBundleUtilities), nameof(AssetBundleUtilities.ReplaceShaders))]
+    public static void FixEffectShader(GameObject prefab)
+    {
+        foreach (var ruleset in prefab.GetComponentsInChildren<EffectRuleset>(true))
+        {
+            var material = ruleset._cloudMaterial;
+            if (material == null) continue;
+
+            var replacementShader = Shader.Find(material.shader.name);
+            Jam5Project.WriteDebugMessage("Double checking " + material.shader.name);
+            if (replacementShader == null) continue;
+
+            Jam5Project.WriteDebugMessage("Replacing " + replacementShader.name);
+
+            // preserve override tag and render queue (for Standard shader)
+            // keywords and properties are already preserved
+            if (material.renderQueue != material.shader.renderQueue)
+            {
+                var renderType = material.GetTag("RenderType", false);
+                var renderQueue = material.renderQueue;
+                material.shader = replacementShader;
+                material.SetOverrideTag("RenderType", renderType);
+                material.renderQueue = renderQueue;
+            }
+            else
+            {
+                material.shader = replacementShader;
+            }
+        }
+        foreach (var sphereRenderer in prefab.GetComponentsInChildren<TessellatedSphereRenderer>())
+        {
+            var material = sphereRenderer._materials[0];
+            Jam5Project.WriteDebugMessage("Checking " + material);
+            if (material == null) continue;
+
+            var replacementShader = Shader.Find(material.shader.name);
+            Jam5Project.WriteDebugMessage("Double checking " + material.shader.name);
+            if (replacementShader == null) continue;
+
+            Jam5Project.WriteDebugMessage("Replacing " + replacementShader.name);
+
+            // preserve override tag and render queue (for Standard shader)
+            // keywords and properties are already preserved
+            if (material.renderQueue != material.shader.renderQueue)
+            {
+                var renderType = material.GetTag("RenderType", false);
+                var renderQueue = material.renderQueue;
+                material.shader = replacementShader;
+                material.SetOverrideTag("RenderType", renderType);
+                material.renderQueue = renderQueue;
+            }
+            else
+            {
+                material.shader = replacementShader;
+            }
         }
     }
 }

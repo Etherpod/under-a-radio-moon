@@ -9,15 +9,11 @@
     "centerOfSolarSystem": true
   },
 
-  "Atmosphere": {
-    "size": 300
-  },
-
   "Props": {
     "details": [
       {
         "assetBundle": "planets/assets/jam5project",
-        "path": "Assets/Jam5Project/PlanetTest.prefab",
+        "path": "Assets/Jam5Project/RadioMoon.prefab",
         "position": {
           "x": 0,
           "y": 0,
