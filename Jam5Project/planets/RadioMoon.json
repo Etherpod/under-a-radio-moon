@@ -12,9 +12,9 @@
   /*"Atmosphere": {
     "clouds": {
       "cloudsPrefab": "giantsDeep",
-      "capPath": "planets/Clouds_GD_TopCap_d.png",
-      "texturePath": "planets/Clouds_GD_Top_d.png",
-      "rampPath": "planets/Clouds_GD_Top_ramp.png",
+      "capPath": "planets/misc/Clouds_GD_TopCap_d.png",
+      "texturePath": "planets/misc/Clouds_GD_Top_d.png",
+      "rampPath": "planets/misc/Clouds_GD_Top_ramp.png",
       "fluidType": "cloud",
       "hasLightning": false,
       "unlit": true,
@@ -46,5 +46,11 @@
 
   "MapMarker": {
     "enabled": true
+  },
+
+  "ShipLog": {
+    "mapMode": {
+      "revealedSprite": "planets/misc/T-0187.png"
+    }
   }
 }

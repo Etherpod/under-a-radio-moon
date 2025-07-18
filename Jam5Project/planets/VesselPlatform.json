@@ -32,7 +32,7 @@
         "detectionRadius": 15.0,
         "identificationRadius": 3.0,
         "parentPath": "Sector/SignalHint/SignalPivot",
-        "audio": "planets/assets/SignalHintAudio.ogg",
+        "audio": "planets/misc/SignalHintAudio.ogg",
         "isRelativeToParent": true
       }
     ]
