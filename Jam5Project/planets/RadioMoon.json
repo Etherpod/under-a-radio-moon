@@ -19,7 +19,13 @@
       "hasLightning": false,
       "unlit": true,
       "innerCloudRadius": 125,
-      "outerCloudRadius": 200
+      "outerCloudRadius": 200,
+      "tint": {
+        "r": 255,
+        "g": 255,
+        "b": 255,
+        "a": 255
+      }
     }
   },*/
 

@@ -9,8 +9,8 @@
   "Props": {
     "details": [
       {
-        "rename": "Treepot",
-        "path": "DB_VesselDimension_Body/Sector_VesselDimension/Props_VesselDimension/Prefab_NOM_NomaiTree_VarDRY_3/GEO_Treepot_3",
+        "assetBundle": "planets/assets/jam5project",
+        "path": "Assets/Jam5Project/SignalHint.prefab",
         "position": {
           "x": 0,
           "y": 0,
@@ -21,10 +21,18 @@
           "y": 0,
           "z": 0
         }
-      },
+      }
+    ],
+    "signals": [
       {
-        "path": "WhiteholeStation_Body/Sector_WhiteholeStation/Props_WhiteHoleStation/Prefab_NOM_NomaiTree_Var_2/GEO_NomaiTree_1_Trunk",
-        "parentPath": "Sector/Treepot",
+        "name": "Redirected Signal",
+        "frequency": "Wide-Band Radio",
+        "onlyAudibleToScope": true,
+        "sourceRadius": 1.0,
+        "detectionRadius": 15.0,
+        "identificationRadius": 3.0,
+        "parentPath": "Sector/SignalHint/SignalPivot",
+        "audio": "planets/assets/SignalHintAudio.ogg",
         "isRelativeToParent": true
       }
     ]

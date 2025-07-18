@@ -13,6 +13,8 @@ public class ShrinkerController : MonoBehaviour
 
     [SerializeField]
     private GameObject _basePlanet;
+    [SerializeField]
+    private AudioVolume _basePlanetAmbience;
 
     private PlayerCameraController _cameraController;
     private bool _updateShrink;
@@ -55,6 +57,10 @@ public class ShrinkerController : MonoBehaviour
             if (_shrunkenPlanets.Count == 0 || Time.time > _endScaleTime)
             {
                 _updateScale = false;
+                if (!_scaleUp && _updateShrink)
+                {
+                    _zoomIn = true;
+                }
                 return;
             }
 
@@ -98,7 +104,7 @@ public class ShrinkerController : MonoBehaviour
             Vector3 targetVelocity = toTarget.normalized * 20f;
             // Player velocity
             Vector3 velocity = Locator.GetPlayerBody().GetVelocity();
-            bool slowDown = toTarget.magnitude < 20f;
+            bool slowDown = toTarget.magnitude < 10f;
             float speed = 20f;
 
             if (!_zoomIn)
@@ -113,12 +119,6 @@ public class ShrinkerController : MonoBehaviour
                 // Come to a stop
                 targetVelocity = Vector3.zero;
 
-                // Reset FOV
-                if (_zoomIn && !_hasResetFOV)
-                {
-                    _cameraController.SnapToInitFieldOfView(5f, true);
-                    _hasResetFOV = true;
-                }
                 if (!_zoomIn && !_hasCalledEvent)
                 {
                     _shrunkenPlanets[0].OnChangeSize(_scaleUp);
@@ -153,6 +153,7 @@ public class ShrinkerController : MonoBehaviour
                             if (_shrunkenPlanets.Count == 0)
                             {
                                 _basePlanet.SetActive(true);
+                                _basePlanetAmbience.SetVolumeActivation(true);
                             }
                             else
                             {
@@ -168,6 +169,13 @@ public class ShrinkerController : MonoBehaviour
                     {
                         // change to zoom in
                         _zoomIn = true;
+
+                        // Reset FOV
+                        if (!_hasResetFOV)
+                        {
+                            _cameraController.SnapToInitFieldOfView(5f, true);
+                            _hasResetFOV = true;
+                        }
                     }
 
                     return;
@@ -193,7 +201,7 @@ public class ShrinkerController : MonoBehaviour
         Locator.GetPlayerController().SetColliderActivation(false);
         Locator.GetPlayerController().LockMovement(false);
         Locator.GetPlayerDetector().GetComponent<ForceApplier>().SetApplyForces(false);
-        _cameraController.SetTargetFieldOfView(120f, 0.5f, true);
+        _cameraController.SetTargetFieldOfView(120f, 2f, true);
         if (_shrunkenPlanets[0].IsShrunk)
         {
             _startDistance = (_shrunkenPlanets[0].transform.position - Locator.GetPlayerTransform().position).magnitude;
@@ -207,6 +215,7 @@ public class ShrinkerController : MonoBehaviour
             else
             {
                 _basePlanet.SetActive(false);
+                _basePlanetAmbience.SetVolumeActivation(false);
             }
         }
         else
