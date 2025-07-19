@@ -1,22 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Jam5Project;
 
 public class ShrunkenPlanet : MonoBehaviour
 {
+    private static readonly int MusicTimeProperty = Shader.PropertyToID("_MusicTime");
+
     [SerializeField]
-    private Transform _arrivalPoint;
+    private Transform _arrivalPoint = null;
     [SerializeField]
-    private Transform _lookTarget;
+    private Transform _lookTarget = null;
     [SerializeField]
-    private Transform _scaleRoot;
+    private Transform _scaleRoot = null;
     [SerializeField]
-    private Transform _expandParent;
+    private Transform _expandParent = null;
     [SerializeField]
     private float _minScale = 0.002f;
     [SerializeField]
     private PlanetSigil[] _planetSigils = [];
+    [SerializeField]
+    private OWAudioSource _musicSource = null;
+    [SerializeField]
+    private GameObject _skyorb = null;
 
     private ShrinkerController _shrinkerController;
     private bool _shrunken;
@@ -27,14 +34,8 @@ public class ShrunkenPlanet : MonoBehaviour
 
     public bool IsShrunk
     {
-        get
-        {
-            return _shrunken;
-        }
-        set
-        {
-            _shrunken = value;
-        }
+        get => _shrunken;
+        set => _shrunken = value;
     }
 
     private void Awake()
@@ -73,6 +74,14 @@ public class ShrunkenPlanet : MonoBehaviour
         SetScaleLerp(_minScale);
         OnChangeSize(false);
         _shrunken = true;
+    }
+
+    private void Update()
+    {
+        if (!_shrunken)
+        {
+            Shader.SetGlobalFloat(MusicTimeProperty, _musicSource.time);
+        }
     }
 
     private T[] GetComponentsUnderPlanet<T>(Transform t)
