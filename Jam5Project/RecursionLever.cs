@@ -25,7 +25,7 @@ public class RecursionLever : MonoBehaviour
         enabled = false;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (Time.time < _moveStartTime + _moveLength)
         {
