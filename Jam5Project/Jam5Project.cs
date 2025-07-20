@@ -30,7 +30,7 @@ public class Jam5Project : ModBehaviour
 
     private void Start()
     {
-        ModHelper.Console.WriteLine($"My mod {nameof(Jam5Project)} is loaded!", MessageType.Success);
+        // ModHelper.Console.WriteLine($"My mod {nameof(Jam5Project)} is loaded!", MessageType.Success);
 
         ShrinkablePlanetType = EnumUtils.Create<ItemType>("ShrinkablePlanet");
 
@@ -50,7 +50,7 @@ public class Jam5Project : ModBehaviour
 
     private void OnStarSystemLoaded(string system)
     {
-        if (system == "Jam5")
+        if (system == "T0187")
         {
             // Unwanted stuff
             var planet = NHAPI.GetPlanet("T-0187");

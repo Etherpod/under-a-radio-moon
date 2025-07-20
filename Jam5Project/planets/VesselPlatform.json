@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/Outer-Wilds-New-Horizons/new-horizons/main/NewHorizons/Schemas/body_schema.json",
-  "name": "Etherpod_Jam5Project_Platform",
+  "name": "Etherpod_T0187_Platform",
   "starSystem": "Jam5",
   "extras": {
     "isPlatform": true
@@ -9,7 +9,7 @@
   "Props": {
     "details": [
       {
-        "assetBundle": "planets/assets/jam5project",
+        "assetBundle": "planets/assets/t0187",
         "path": "Assets/Jam5Project/SignalHint.prefab",
         "position": {
           "x": 0,

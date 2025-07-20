@@ -8,6 +8,7 @@
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <NoWarn>MSB3270</NoWarn>
+		<ModName>T0187</ModName>
   </PropertyGroup>
 	
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -16,11 +17,17 @@
 
   <Target Name="CopyDLLs" AfterTargets="Build" Condition=" '$(Configuration)' == 'Debug' And '$(UnityProjectDir)' != '' ">
     <Message Text="Copying assets to Unity project" Importance="High" />
-
     <Copy SourceFiles="$(TargetDir)$(ProjectName).dll" DestinationFolder="$(UnityProjectModDir)" />
-
     <Message Text="Copy complete" Importance="High" />
   </Target>
+	
+	<Target Name="RenameDLL" AfterTargets="CopyDLLs">
+		<Message Text="Renaming the mod DLL" Importance="High" />
+		<Delete Files="$(OutputPath)/$(ModName).dll" />
+		<Delete Files="$(OutputPath)/$(ModName).pdb" />
+		<Move SourceFiles="$(OutputPath)/$(ProjectName).dll" DestinationFiles="$(OutputPath)/$(ModName).dll" />
+		<Move SourceFiles="$(OutputPath)/$(ProjectName).pdb" DestinationFiles="$(OutputPath)/$(ModName).pdb" />
+	</Target>
   
   <ItemGroup>
     <PackageReference Include="OWML" Version="2.9.5" />
