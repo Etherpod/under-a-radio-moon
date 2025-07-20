@@ -138,6 +138,7 @@ public class ShrinkerController : MonoBehaviour
                         Locator.GetPlayerController().UnlockMovement();
                         Locator.GetPlayerDetector().GetComponent<ForceApplier>().SetApplyForces(true);
                         Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().BreakLock();
+                        Locator.GetPlayerBody().GetComponent<PlayerResources>()._invincible = false;
                         OWInput.ChangeInputMode(InputMode.Character);
                         _shrunkenPlanets[0].IsShrunk = !_shrunkenPlanets[0].IsShrunk;
 
@@ -201,6 +202,7 @@ public class ShrinkerController : MonoBehaviour
         Locator.GetPlayerController().SetColliderActivation(false);
         Locator.GetPlayerController().LockMovement(false);
         Locator.GetPlayerDetector().GetComponent<ForceApplier>().SetApplyForces(false);
+        Locator.GetPlayerBody().GetComponent<PlayerResources>()._invincible = true;
         _cameraController.SetTargetFieldOfView(120f, 2f, true);
         if (_shrunkenPlanets[0].IsShrunk)
         {

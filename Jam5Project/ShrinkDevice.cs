@@ -26,6 +26,8 @@ public class ShrinkDevice : MonoBehaviour
 
         _activateButton.ChangePrompt("Activate device");
         _activateButton.OnPressInteract += OnPressInteract;
+
+        _activeSigilData = new([]);
     }
 
     private void OnPlacedInMain(OWItem item)
@@ -40,14 +42,14 @@ public class ShrinkDevice : MonoBehaviour
 
     private void OnPlacedInSecondary(OWItem item)
     {
-        _activeSigilData = (item as ShrinkablePlanetItem).GetPlanet().GetSigilData();
-        OnSigilsUpdated?.Invoke(_activeSigilData.GetPlanetSigils());
+        //_activeSigilData = (item as ShrinkablePlanetItem).GetPlanet().GetSigilData();
+        //OnSigilsUpdated?.Invoke(_activeSigilData.GetPlanetSigils());
     }
 
     private void OnRemovedFromSecondary(OWItem item)
     {
-        _activeSigilData = null;
-        OnSigilsUpdated?.Invoke([]);
+        //_activeSigilData = null;
+        //OnSigilsUpdated?.Invoke([]);
     }
 
     private void OnPressInteract()
@@ -55,6 +57,18 @@ public class ShrinkDevice : MonoBehaviour
         if (_mainSlot.GetSocketedItem() == null) return;
 
         (_mainSlot.GetSocketedItem() as ShrinkablePlanetItem).ActivatePlanet();
+    }
+
+    public void AddChildSigilData(PlanetSigilData data)
+    {
+        _activeSigilData.AddChildData(data);
+        OnSigilsUpdated?.Invoke(_activeSigilData.GetPlanetSigils());
+    }
+
+    public void RemoveChildSigilData(PlanetSigilData data)
+    {
+        _activeSigilData.RemoveChildData(data);
+        OnSigilsUpdated?.Invoke(_activeSigilData.GetPlanetSigils());
     }
 
     public HashSet<PlanetSigil> GetActiveSigils()

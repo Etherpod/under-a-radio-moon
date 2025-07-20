@@ -80,7 +80,7 @@ public class ShrinkablePlanetItem : OWItem
 
     public void ActivatePlanet()
     {
-        //SetColliderActivation(true);
+        SetColliderActivation(false);
         _planetController.OnPressInteract();
     }
 }
