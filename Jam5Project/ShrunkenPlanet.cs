@@ -23,7 +23,7 @@ public class ShrunkenPlanet : MonoBehaviour
     [SerializeField]
     private OWAudioSource _musicSource = null;
     [SerializeField]
-    private GameObject _skyorb = null;
+    private MeshRenderer _skyorbRenderer = null;
 
     private ShrinkerController _shrinkerController;
     private bool _shrunken;
@@ -71,7 +71,7 @@ public class ShrunkenPlanet : MonoBehaviour
             }
         }
 
-        SetScaleLerp(_minScale);
+        SetScaleLerp(0f);
         OnChangeSize(false);
         _shrunken = true;
     }
@@ -130,6 +130,7 @@ public class ShrunkenPlanet : MonoBehaviour
         {
             light.SetRangeScale(scale);
         }
+        _skyorbRenderer.material.SetFloat("_Alpha", lerp);
     }
 
     public void SetTempParent(bool tempParent)
