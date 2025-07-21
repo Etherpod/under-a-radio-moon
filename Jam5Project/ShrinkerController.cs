@@ -41,12 +41,6 @@ public class ShrinkerController : MonoBehaviour
 
     private void Update()
     {
-        if (Keyboard.current.numpadDivideKey.wasPressedThisFrame
-            && !_updateShrink && _shrunkenPlanets.Count > 0 && !_shrunkenPlanets[0].IsShrunk)
-        {
-            SetShrunken(true, _shrunkenPlanets[0]);
-        }
-
         if (_shrinkAfterDelay && Time.time > _startShrinkTime)
         {
             StartShrink();
@@ -255,5 +249,14 @@ public class ShrinkerController : MonoBehaviour
         OWInput.ChangeInputMode(InputMode.None);
         _shrinkAfterDelay = true;
         _startShrinkTime = Time.time + 0.4f;
+    }
+
+    public void ShrinkCurrentPlanet()
+    {
+        if (_shrunkenPlanets.Count > 0 && !_shrunkenPlanets[0].IsShrunk
+            && !_updateShrink)
+        {
+            SetShrunken(true, _shrunkenPlanets[0]);
+        }
     }
 }
