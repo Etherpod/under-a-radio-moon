@@ -37,13 +37,13 @@ public class Jam5Project : ModBehaviour
         NHAPI = ModHelper.Interaction.TryGetModApi<INewHorizons>("xen.NewHorizons");
         NHAPI.LoadConfigs(this);
 
-        LoadManager.OnCompleteSceneLoad += (scene, loadScene) =>
-        {
-            if (loadScene == OWScene.SolarSystem)
-            {
-                PlayerData.SetPersistentCondition("URM_HAS_ERNESTONIAN_TRANSLATOR", false);
-            }
-        };
+        // LoadManager.OnCompleteSceneLoad += (scene, loadScene) =>
+        // {
+        //     if (loadScene == OWScene.SolarSystem)
+        //     {
+        //         PlayerData.SetPersistentCondition("URM_HAS_ERNESTONIAN_TRANSLATOR", false);
+        //     }
+        // };
 
         NHAPI.GetStarSystemLoadedEvent().AddListener(OnStarSystemLoaded);
     }
@@ -133,7 +133,7 @@ public static class Jam5ProjectPatches
         if (flag && __instance._translationTimeElapsed == 0f
             && !__instance._nomaiTextComponent.IsTranslated(__instance._currentTextID))
         {
-            __instance._textField.text = TranslationHandler.GetTranslation("<!> Untranslated Ernestonian writing <!>", TranslationHandler.TextType.UI);
+            __instance._textField.text = TranslationHandler.GetTranslation("<!> Untranslated alien writing <!>", TranslationHandler.TextType.UI);
         }
     }
 
