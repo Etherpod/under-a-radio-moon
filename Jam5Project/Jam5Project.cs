@@ -50,7 +50,7 @@ public class Jam5Project : ModBehaviour
 
     private void OnStarSystemLoaded(string system)
     {
-        if (system == "T0187")
+        if (system == "Jam5")
         {
             // Unwanted stuff
             var planet = NHAPI.GetPlanet("T-0187");
