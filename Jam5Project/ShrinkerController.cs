@@ -15,6 +15,8 @@ public class ShrinkerController : MonoBehaviour
     private GameObject _basePlanet;
     [SerializeField]
     private AudioVolume _basePlanetAmbience;
+    [SerializeField]
+    private AudioClip _shrinkMusic;
 
     private PlayerCameraController _cameraController;
     private bool _updateShrink;
@@ -246,6 +248,8 @@ public class ShrinkerController : MonoBehaviour
             _shrunkenPlanets.Insert(0, planet);
 
             Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().LockOn(planet.GetLookTarget(), 5f, false, 1f);
+
+            _basePlanetAmbience.GetComponent<OWAudioSource>().PlayOneShot(_shrinkMusic, 1f);
         }
         else
         {
@@ -254,7 +258,7 @@ public class ShrinkerController : MonoBehaviour
 
         OWInput.ChangeInputMode(InputMode.None);
         _shrinkAfterDelay = true;
-        _startShrinkTime = Time.time + 0.4f;
+        _startShrinkTime = Time.time + 0.5f;
     }
 
     public bool IsPlayerShrunken()

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -16,6 +17,12 @@ public class TowerDoorController : MonoBehaviour
     private TowerDoorSigilLock[] _sigilLocks;
     [SerializeField]
     private InteractReceiver _interactReceiver;
+    [SerializeField]
+    private AudioVolume _towerAmbience;
+    [SerializeField]
+    private AudioVolume _planetAmbience;
+    [SerializeField]
+    private AudioClip _openDoorSound;
 
     private ShrinkDevice _shrinkDevice;
     private bool _opened = false;
@@ -37,6 +44,7 @@ public class TowerDoorController : MonoBehaviour
         _interactReceiver.ChangePrompt("Open Door");
         _interactReceiver.OnPressInteract += OnPressInteract;
         _interactReceiver.DisableInteraction();
+        _towerAmbience.SetVolumeActivation(false);
     }
 
     private void OnSigilsUpdated(HashSet<PlanetSigil> newSigils)
@@ -68,6 +76,7 @@ public class TowerDoorController : MonoBehaviour
         if (!_opened && hasAll)
         {
             _interactReceiver.EnableInteraction();
+            _planetAmbience.SetVolumeActivation(false);
         }
     }
 
@@ -87,6 +96,16 @@ public class TowerDoorController : MonoBehaviour
         _animator.SetTrigger("OpenDoor");
         _interactReceiver.DisableInteraction();
         _opened = true;
+
+        StartCoroutine(DoorMusicSequence());
+    }
+
+    private IEnumerator DoorMusicSequence()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _towerAmbience.GetComponent<OWAudioSource>().PlayOneShot(_openDoorSound);
+        yield return new WaitForSeconds(8f);
+        _towerAmbience.SetVolumeActivation(true);
     }
 
     private bool HasRequiredSigils()

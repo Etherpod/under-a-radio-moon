@@ -15,6 +15,8 @@ public class RecursivePapers : MonoBehaviour
     private ErnestonianText _ernestonianText = null;
     [SerializeField]
     private NomaiTextLine _hiddenPage = null;
+    [SerializeField]
+    private AudioVolume _planetAmbience = null;
 
     private OWCollider _textCollider;
 
@@ -26,6 +28,7 @@ public class RecursivePapers : MonoBehaviour
         
         _hiddenPage.SetUnreadState();
         _textCollider.SetActivation(false);
+        _planetAmbience.SetVolumeActivation(false);
         
         _interactReceiver.ChangePrompt("Spread pages");
         _interactReceiver.OnPressInteract += OnPressInteract;
@@ -47,7 +50,7 @@ public class RecursivePapers : MonoBehaviour
         _interactReceiver.DisableInteraction();
         _ernestonianText.ShowImmediate();
         _textCollider.SetActivation(true);
+        _planetAmbience.SetVolumeActivation(true);
         _animator.SetBool("Fan", true);
     }
-
 }
