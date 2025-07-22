@@ -151,11 +151,6 @@
     </ExploreFact>
 
 		<ExploreFact>
-			<ID>URM_RECURSIVE_PLANET_FIND</ID>
-			<Text>A miniature planet inside a miniature planet. The surface is barren except for a small gazebo.</Text>
-		</ExploreFact>
-
-		<ExploreFact>
 			<ID>URM_RECURSIVE_PLANET_NOTES</ID>
 			<Text>There were 2 notes on the floor of the gazebo.</Text>
 		</ExploreFact>
