@@ -1,0 +1,94 @@
+<AstroObjectEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/Outer-Wilds-New-Horizons/new-horizons/main/NewHorizons/Schemas/shiplog_schema.xsd">
+  <ID>Radio Moon</ID>
+  
+  <Entry>
+    <ID>URM_MOON_SHIP</ID>
+    <Name>Strange Building</Name>
+    <Curiosity>URM_MOON_SHIP</Curiosity>
+    <IsCuriosity/>
+
+    <RumorFact>
+      <ID>URM_MOON_SHIP_SIGNAL</ID>
+      <RumorName>Redirected Signal</RumorName>
+      <Text>I found a satellite dish that was receiving a signal from somewhere in space.</Text>
+    </RumorFact>
+
+    <ExploreFact>
+      <ID>URM_MOON_SHIP_FIND</ID>
+      <Text>A rusty old building on the surface of the Radio Moon.</Text>
+    </ExploreFact>
+
+    <ExploreFact>
+      <ID>URM_MOON_SHIP_DEVICE</ID>
+      <Text>I found a strange device inside the building with a miniature planet inserted into it.</Text>
+    </ExploreFact>
+
+    <ExploreFact>
+      <ID>URM_MOON_SHIP_DEVICE_USE</ID>
+      <Text>Activating the device shrinks me down to the size of the miniature planet.</Text>
+    </ExploreFact>
+  </Entry>
+
+
+  <Entry>
+    <ID>URM_TOWER_PLANET</ID>
+    <Name>The Great Tower</Name>
+    <Curiosity>URM_MOON_SHIP</Curiosity>
+
+    <ExploreFact>
+      <ID>URM_TOWER_PLANET_FIND</ID>
+      <Text>A miniature planet with a tall tower that stretches past the barrier surrounding the world.</Text>
+    </ExploreFact>
+    
+    <ExploreFact>
+      <ID>URM_TOWER_DOOR</ID>
+      <Text>I found a locked door at the base of the tower with three colors on it.</Text>
+    </ExploreFact>
+  </Entry>
+
+  <Entry>
+    <ID>URM_RADIO_PLANET</ID>
+    <Name>A Familiar Place</Name>
+    <Curiosity>URM_MOON_SHIP</Curiosity>
+
+    <ExploreFact>
+      <ID>URM_RADIO_PLANET_FIND</ID>
+      <Text>A miniature planet covered with broken-down radio towers and deep canyons. It somewhat resembles the Radio Moon.</Text>
+    </ExploreFact>
+  </Entry>
+
+  <Entry>
+    <ID>URM_GRASS_PLANET</ID>
+    <Name>Grassy Knoll</Name>
+    <Curiosity>URM_MOON_SHIP</Curiosity>
+
+    <ExploreFact>
+      <ID>URM_GRASS_PLANET_FIND</ID>
+      <Text>A miniature planet that resembles a grassy field.</Text>
+    </ExploreFact>
+  </Entry>
+
+  <Entry>
+    <ID>URM_GEAR_PLANET</ID>
+    <Name>The Gears</Name>
+    <Curiosity>URM_MOON_SHIP</Curiosity>
+
+    <ExploreFact>
+      <ID>URM_GEAR_PLANET_FIND</ID>
+      <Text>A miniature model filled with interlocking gears.</Text>
+    </ExploreFact>
+  </Entry>
+
+  <Entry>
+    <ID>URM_RECURSIVE_PLANET</ID>
+    <Name>Dead End</Name>
+    <Curiosity>URM_MOON_SHIP</Curiosity>
+
+    <ExploreFact>
+      <ID>URM_RECURSIVE_PLANET_FIND</ID>
+      <Text>A miniature planet inside a miniature planet. The surface is barren except for a small gazebo.</Text>
+    </ExploreFact>
+  </Entry>
+  
+</AstroObjectEntry>

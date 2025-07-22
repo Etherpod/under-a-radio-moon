@@ -18,6 +18,8 @@ public class Jam5Project : ModBehaviour
     private bool _downloadingTranslation = false;
     private float _downloadLength;
 
+    private ShrinkerController _shrinkerController;
+
     private NotificationData _downloadStartNotification = new(NotificationTarget.Player, "TRANSLATOR: STARTING REMOTE DOWNLOAD", 5f, true);
     private NotificationData _downloadEndNotification = new(NotificationTarget.Player, "TRANSLATOR: COMPLETED DOWNLOAD", 5f, true);
 
@@ -37,13 +39,13 @@ public class Jam5Project : ModBehaviour
         NHAPI = ModHelper.Interaction.TryGetModApi<INewHorizons>("xen.NewHorizons");
         NHAPI.LoadConfigs(this);
 
-        // LoadManager.OnCompleteSceneLoad += (scene, loadScene) =>
-        // {
-        //     if (loadScene == OWScene.SolarSystem)
-        //     {
-        //         PlayerData.SetPersistentCondition("URM_HAS_ERNESTONIAN_TRANSLATOR", false);
-        //     }
-        // };
+        LoadManager.OnStartSceneLoad += (scene, loadScene) =>
+        {
+            if (loadScene == OWScene.SolarSystem)
+            {
+                _shrinkerController = null;
+            }
+        };
 
         NHAPI.GetStarSystemLoadedEvent().AddListener(OnStarSystemLoaded);
     }
@@ -53,9 +55,10 @@ public class Jam5Project : ModBehaviour
         if (system == "Jam5")
         {
             // Unwanted stuff
-            var planet = NHAPI.GetPlanet("T-0187");
+            var planet = NHAPI.GetPlanet("Radio Moon");
             planet.transform.Find("GravityWell").gameObject.SetActive(false);
             planet.transform.Find("Volumes").gameObject.SetActive(false);
+            _shrinkerController = planet.GetComponentInChildren<ShrinkerController>();
         }
     }
 
@@ -74,6 +77,11 @@ public class Jam5Project : ModBehaviour
         _downloadStartTime = Time.time;
         NotificationManager.SharedInstance.PostNotification(_downloadStartNotification, false);
         _downloadingTranslation = true;
+    }
+
+    public bool IsShrunken()
+    {
+        return _shrinkerController.IsPlayerShrunken();
     }
 
     public static void WriteDebugMessage(object msg)
@@ -147,10 +155,7 @@ public static class Jam5ProjectPatches
             if (material == null) continue;
 
             var replacementShader = Shader.Find(material.shader.name);
-            Jam5Project.WriteDebugMessage("Double checking " + material.shader.name);
             if (replacementShader == null) continue;
-
-            Jam5Project.WriteDebugMessage("Replacing " + replacementShader.name);
 
             // preserve override tag and render queue (for Standard shader)
             // keywords and properties are already preserved
@@ -167,5 +172,24 @@ public static class Jam5ProjectPatches
                 material.shader = replacementShader;
             }
         }
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(CanvasMarker), nameof(CanvasMarker.SetVisibility))]
+    public static bool DisableHUDMarker(CanvasMarker __instance, bool value)
+    {
+        if (!Jam5Project.Instance.IsShrunken()) return true;
+
+        bool tryEnable = value;
+        bool isLogMarker = ShipLogEntryHUDMarker.s_entryLocation != null && __instance._visualTarget == ShipLogEntryHUDMarker.s_entryLocation.GetTransform();
+        bool logMarkerOutsideCloak = !isLogMarker || !ShipLogEntryHUDMarker.s_entryLocation.IsWithinCloakField();
+        bool playerInCloak = Locator.GetCloakFieldController() != null && Locator.GetCloakFieldController().isPlayerInsideCloak;
+        bool logMarkerInCloak = isLogMarker && ShipLogEntryHUDMarker.s_entryLocation.IsWithinCloakField();
+
+        if (tryEnable && (logMarkerOutsideCloak || (playerInCloak && logMarkerInCloak)))
+        {
+            return false;
+        }
+        return true;
     }
 }

@@ -149,6 +149,9 @@ public class ShrinkerController : MonoBehaviour
                             {
                                 _basePlanet.SetActive(true);
                                 _basePlanetAmbience.SetVolumeActivation(true);
+
+                                Locator.GetShipBody().gameObject.SetActive(true);
+                                Locator.GetShipBody().Unsuspend();
                             }
                             else
                             {
@@ -157,6 +160,7 @@ public class ShrinkerController : MonoBehaviour
                         }
                         else
                         {
+                            Locator.GetShipLogManager().RevealFact("URM_MOON_SHIP_DEVICE_USE");
                             OnArriveAtPlanet?.Invoke(_shrunkenPlanets[0]);
                         }
                     }
@@ -212,6 +216,8 @@ public class ShrinkerController : MonoBehaviour
             {
                 _basePlanet.SetActive(false);
                 _basePlanetAmbience.SetVolumeActivation(false);
+                Locator.GetShipBody().Suspend();
+                Locator.GetShipBody().gameObject.SetActive(false);
             }
         }
         else
@@ -249,6 +255,11 @@ public class ShrinkerController : MonoBehaviour
         OWInput.ChangeInputMode(InputMode.None);
         _shrinkAfterDelay = true;
         _startShrinkTime = Time.time + 0.4f;
+    }
+
+    public bool IsPlayerShrunken()
+    {
+        return _shrunkenPlanets.Count > 0;
     }
 
     public void ShrinkCurrentPlanet()

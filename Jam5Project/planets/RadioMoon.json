@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/Outer-Wilds-New-Horizons/new-horizons/main/NewHorizons/Schemas/body_schema.json",
-  "name": "T-0187",
+  "name": "Radio Moon",
   "starSystem": "Jam5",
 
   "Base": {
@@ -45,7 +45,7 @@
     "signals": [
       {
         "name": "Distress Signal",
-        "frequency": "Wide-Band Radio",
+        "frequency": "Old Broadcast",
         "onlyAudibleToScope": true,
         "sourceRadius": 1.0,
         "detectionRadius": 15.0,
@@ -64,6 +64,7 @@
   "ShipLog": {
     "mapMode": {
       "revealedSprite": "planets/misc/T-0187.png"
-    }
+    },
+    "xmlFile": "planets/shiplog/ShipLog.xml"
   }
 }

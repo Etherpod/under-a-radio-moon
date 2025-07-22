@@ -11,6 +11,8 @@ public class ShrinkablePlanetItem : OWItem
     private string _displayName;
     [SerializeField]
     private ShrunkenPlanet _planetController;
+    [SerializeField]
+    private string _entryRevealFact = "";
 
     private ShrinkerController _shrinkerController;
 
@@ -70,6 +72,11 @@ public class ShrinkablePlanetItem : OWItem
         if (planet == _planetController)
         {
             SetColliderActivation(true);
+
+            if (!string.IsNullOrWhiteSpace(_entryRevealFact))
+            {
+                Locator.GetShipLogManager().RevealFact(_entryRevealFact);
+            }
         }
     }
 

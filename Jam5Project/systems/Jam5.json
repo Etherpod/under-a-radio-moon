@@ -1,1 +1,64 @@
-{}
+{
+  "$schema": "https://raw.githubusercontent.com/Outer-Wilds-New-Horizons/new-horizons/main/NewHorizons/Schemas/star_system_schema.json",
+  "curiosities": [
+    {
+      "id": "URM_MOON_SHIP",
+      "color": {
+        "r": 186,
+        "g": 109,
+        "b": 57,
+        "a": 255
+      },
+      "highlightColor": {
+        "r": 221,
+        "g": 165,
+        "b": 108,
+        "a": 255
+      }
+    }
+  ],
+  "entryPositions": [
+    {
+      "id": "URM_MOON_SHIP",
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "URM_TOWER_PLANET",
+      "position": {
+        "x": -300,
+        "y": -200
+      }
+    },
+    {
+      "id": "URM_RADIO_PLANET",
+      "position": {
+        "x": -100,
+        "y": -200
+      }
+    },
+    {
+      "id": "URM_GRASS_PLANET",
+      "position": {
+        "x": 100,
+        "y": -200
+      }
+    },
+    {
+      "id": "URM_GEAR_PLANET",
+      "position": {
+        "x": 100,
+        "y": -200
+      }
+    },
+    {
+      "id": "URM_RECURSIVE_PLANET",
+      "position": {
+        "x": -200,
+        "y": -400
+      }
+    }
+  ]
+}

@@ -25,15 +25,16 @@
     ],
     "signals": [
       {
-        "name": "Redirected Signal",
-        "frequency": "Wide-Band Radio",
+        "name": "Remote Transmission",
+        "frequency": "Old Broadcast",
         "onlyAudibleToScope": true,
         "sourceRadius": 1.0,
         "detectionRadius": 15.0,
         "identificationRadius": 3.0,
         "parentPath": "Sector/SignalHint/SignalPivot",
         "audio": "planets/misc/SignalHintAudio.ogg",
-        "isRelativeToParent": true
+        "isRelativeToParent": true,
+        "reveals": "URM_MOON_SHIP_SIGNAL"
       }
     ]
   }

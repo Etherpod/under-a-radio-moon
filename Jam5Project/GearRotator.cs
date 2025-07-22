@@ -14,6 +14,7 @@ public class GearRotator : MonoBehaviour
 
     private RotateTransform _rotator;
     private bool _inverse = false;
+    private bool _connected = true;
 
     private void Awake()
     {
@@ -23,12 +24,22 @@ public class GearRotator : MonoBehaviour
 
     public void SetGearEnabled(bool enabled)
     {
-        _rotator.enabled = enabled;
+        _rotator.enabled = enabled && _connected;
     }
 
     public void InvertDirection(bool invert)
     {
         _inverse = invert;
         _rotator._degreesPerSecond = _baseGearSpeed * _speedFactor * (_flip ? -1 : 1) * (_inverse ? -1 : 1);
+    }
+
+    public void SetConnected(bool connected)
+    {
+        _connected = connected;
+    }
+
+    public bool IsConnected()
+    {
+        return _connected;
     }
 }
