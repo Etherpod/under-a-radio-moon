@@ -9,7 +9,7 @@ public class RecursionActivationController : MonoBehaviour
     [SerializeField]
     private RecursionLever[] _levers;
     [SerializeField]
-    private ShrunkenPlanet _targetWorld;
+    private ShrinkablePlanetItem _targetWorld;
 
     private List<RecursionLever> _activatedLevers = [];
 
@@ -39,7 +39,7 @@ public class RecursionActivationController : MonoBehaviour
     private IEnumerator InitiateRecursion()
     {
         yield return new WaitForSeconds(1.5f);
-        _targetWorld.OnPressInteract();
+        _targetWorld.ActivatePlanet();
     }
 
     private void OnDestroy()

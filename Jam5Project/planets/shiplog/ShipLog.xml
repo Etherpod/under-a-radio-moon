@@ -40,10 +40,15 @@
       <ID>URM_TOWER_PLANET_FIND</ID>
       <Text>A miniature planet with a tall tower that stretches past the barrier surrounding the world.</Text>
     </ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_TOWER_DOOR</ID>
+			<Text>I found a locked door at the base of the tower with three colors on it.</Text>
+		</ExploreFact>
     
     <ExploreFact>
-      <ID>URM_TOWER_DOOR</ID>
-      <Text>I found a locked door at the base of the tower with three colors on it.</Text>
+      <ID>URM_TOWER_PLANET_RECURSION_DEVICE</ID>
+      <Text>At the top of the tower is a room with what looks like another planet shrink device, and 3 levers.</Text>
     </ExploreFact>
   </Entry>
 
@@ -67,6 +72,31 @@
       <ID>URM_GRASS_PLANET_FIND</ID>
       <Text>A miniature planet that resembles a grassy field.</Text>
     </ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_GRASS_PLANET_NOTE_TREE</ID>
+			<Text>There was a note on a large rock near a pink tree.</Text>
+		</ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_GRASS_PLANET_MADE_MEMORIES</ID>
+			<Text>The note author found this world nostalgic.</Text>
+		</ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_GRASS_PLANET_NOTE_ROCKS</ID>
+			<Text>There was a note lodged in the dirt between some rocks on the side of the planet opposite the tree.</Text>
+		</ExploreFact>
+		
+		<ExploreFact>
+			<ID>URM_GRASS_PLANET_MADE_FOR_SOL</ID>
+			<Text>The maker of the worlds made them for the note author.</Text>
+		</ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_GRASS_PLANET_GEAR_SOLUTION</ID>
+			<Text>The note author realized there is a second button on the gear world, hidden by a second function of the final lever.</Text>
+		</ExploreFact>
   </Entry>
 
   <Entry>
@@ -78,6 +108,36 @@
       <ID>URM_GEAR_PLANET_FIND</ID>
       <Text>A miniature model filled with interlocking gears.</Text>
     </ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_GEAR_PLANET_CONTROLS</ID>
+			<Text>There are controls at the end of one hallway that seem to move some of the gears in the distance.</Text>
+		</ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_GEAR_PLANET_BLOCKAGE</ID>
+			<Text>A large gear blocks one path in the hallway. It moves too quickly for me to get through.</Text>
+		</ExploreFact>
+		
+		<ExploreFact>
+			<ID>URM_GEAR_PLANET_SOLUTION_1</ID>
+			<Text>Stopping the large gears made it possible to safely pass through to the other side.</Text>
+		</ExploreFact>
+		
+		<ExploreFact>
+			<ID>URM_GEAR_PLANET_BUTTON_1</ID>
+			<Text>There was a red button matching the red symbol on the tower door.</Text>
+		</ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_GEAR_PLANET_SOLUTION_2</ID>
+			<Text>The lever that opened the door to the red button had a second effect that is supposed to lead to a second button.</Text>
+		</ExploreFact>
+		
+		<ExploreFact>
+			<ID>URM_GEAR_PLANET_BUTTON_2</ID>
+			<Text>Riding the large gears upward led to a small space with a green button matching the green symbol on the tower door.</Text>
+		</ExploreFact>
   </Entry>
 
   <Entry>
@@ -89,6 +149,31 @@
       <ID>URM_RECURSIVE_PLANET_FIND</ID>
       <Text>A miniature planet inside a miniature planet. The surface is barren except for a small gazebo.</Text>
     </ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_RECURSIVE_PLANET_FIND</ID>
+			<Text>A miniature planet inside a miniature planet. The surface is barren except for a small gazebo.</Text>
+		</ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_RECURSIVE_PLANET_NOTES</ID>
+			<Text>There were 2 notes on the floor of the gazebo.</Text>
+		</ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_RECURSIVE_PLANET_NOTES_AUTHOR</ID>
+			<Text>The notes seem to have a different author. Perhaps Mye?</Text>
+		</ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_RECURSIVE_PLANET_SOL_IS_AUTHOR</ID>
+			<Text>The author mentioned someone named Sol. Perhaps the author of the other notes.</Text>
+		</ExploreFact>
+
+		<ExploreFact>
+			<ID>URM_RECURSIVE_PLANET_MYES_LAST_WORDS</ID>
+			<Text>The author became trapped in this world and died here. They tried to create a way out for Sol.</Text>
+		</ExploreFact>
   </Entry>
   
 </AstroObjectEntry>

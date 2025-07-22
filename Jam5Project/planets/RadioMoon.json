@@ -9,26 +9,6 @@
     "centerOfSolarSystem": true
   },
 
-  /*"Atmosphere": {
-    "clouds": {
-      "cloudsPrefab": "giantsDeep",
-      "capPath": "planets/misc/Clouds_GD_TopCap_d.png",
-      "texturePath": "planets/misc/Clouds_GD_Top_d.png",
-      "rampPath": "planets/misc/Clouds_GD_Top_ramp.png",
-      "fluidType": "cloud",
-      "hasLightning": false,
-      "unlit": true,
-      "innerCloudRadius": 125,
-      "outerCloudRadius": 200,
-      "tint": {
-        "r": 255,
-        "g": 255,
-        "b": 255,
-        "a": 255
-      }
-    }
-  },*/
-
   "Props": {
     "details": [
       {
@@ -65,6 +45,7 @@
     "mapMode": {
       "revealedSprite": "planets/misc/T-0187.png"
     },
-    "xmlFile": "planets/shiplog/ShipLog.xml"
+    "xmlFile": "planets/shiplog/ShipLog.xml",
+		"spriteFolder": "planets/shiplog/images"
   }
 }

@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 namespace Jam5Project;
 
-public class RecursivePapers : MonoBehaviour
+public class AnimatedPaper : MonoBehaviour
 {
     [SerializeField]
     private Animator _animator = null;
@@ -17,6 +17,10 @@ public class RecursivePapers : MonoBehaviour
     private NomaiTextLine _hiddenPage = null;
     [SerializeField]
     private AudioVolume _planetAmbience = null;
+    [SerializeField]
+    private string _promptText = null;
+    [SerializeField]
+    private string _animationTriggerName = null;
 
     private OWCollider _textCollider;
 
@@ -28,9 +32,9 @@ public class RecursivePapers : MonoBehaviour
         
         _hiddenPage.SetUnreadState();
         _textCollider.SetActivation(false);
-        _planetAmbience.SetVolumeActivation(false);
+        if (_planetAmbience != null) _planetAmbience.SetVolumeActivation(false);
         
-        _interactReceiver.ChangePrompt("Spread pages");
+        _interactReceiver.ChangePrompt(_promptText);
         _interactReceiver.OnPressInteract += OnPressInteract;
     }
 
@@ -50,7 +54,8 @@ public class RecursivePapers : MonoBehaviour
         _interactReceiver.DisableInteraction();
         _ernestonianText.ShowImmediate();
         _textCollider.SetActivation(true);
-        _planetAmbience.SetVolumeActivation(true);
-        _animator.SetBool("Fan", true);
+        if (_planetAmbience != null) _planetAmbience.SetVolumeActivation(true);
+        
+        _animator.SetBool(_animationTriggerName, true);
     }
 }
