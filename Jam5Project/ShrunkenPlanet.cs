@@ -131,6 +131,14 @@ public class ShrunkenPlanet : MonoBehaviour
             light.SetRangeScale(scale);
         }
         _skyorbRenderer.material.SetFloat("_Alpha", lerp);
+        if (lerp == 0 && _skyorbRenderer.gameObject.activeSelf)
+        {
+            _skyorbRenderer.gameObject.SetActive(false);
+        }
+        else if (!_skyorbRenderer.gameObject.activeSelf)
+        {
+            _skyorbRenderer.gameObject.SetActive(true);
+        }
     }
 
     public void SetTempParent(bool tempParent)
