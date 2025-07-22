@@ -30,7 +30,7 @@ public class GearRotator : MonoBehaviour
     public void InvertDirection(bool invert)
     {
         _inverse = invert;
-        _rotator._degreesPerSecond = _baseGearSpeed * _speedFactor * (_flip ? -1 : 1) * (_inverse ? -1 : 1);
+        _rotator._degreesPerSecond = _baseGearSpeed * _speedFactor * (_flip ? -1 : 1) * (_inverse ? -0.5f : 1);
     }
 
     public void SetConnected(bool connected)

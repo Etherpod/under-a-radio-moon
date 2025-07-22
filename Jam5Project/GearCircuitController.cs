@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Jam5Project;
 
@@ -13,12 +14,19 @@ public class GearCircuitController : MonoBehaviour
     [SerializeField]
     private GearRotator[] _auxiliaryGears;
     [SerializeField]
-    private GearRotator _reverseGear;
+    private GearRotator _invertedGear;
+    [SerializeField]
+    private GearInvertLever _invertLever;
+    [SerializeField]
+    private GearDoorController _gearDoor;
+
+    private bool _inverted = false;
 
     private void Awake()
     {
         _topGearSwitch.OnSwitchGear += OnSwitchGear;
         _bottomGearSwitch.OnSwitchGear += OnSwitchGear;
+        _invertLever.OnLeverPulled += OnLeverPulled;
     }
 
     private void Start()
@@ -29,6 +37,25 @@ public class GearCircuitController : MonoBehaviour
     private void OnSwitchGear(GearSwitch gearSwitch)
     {
         UpdateGears();
+    }
+
+    private void OnLeverPulled(GearInvertLever lever)
+    {
+        StartCoroutine(InvertSequence());
+    }
+
+    private IEnumerator InvertSequence()
+    {
+        foreach (var main in _mainGears)
+        {
+            main.InvertDirection(true);
+            main.SetGearEnabled(true);
+        }
+        _inverted = true;
+
+        yield return new WaitForSeconds(2f);
+
+        _gearDoor.OpenDoor();
     }
 
     private void UpdateGears()
@@ -48,7 +75,7 @@ public class GearCircuitController : MonoBehaviour
             }
         }
 
-        if (_topGearSwitch.IsSwitchEnabled() && _bottomGearSwitch.IsSwitchEnabled())
+        if (!_inverted && _topGearSwitch.IsSwitchEnabled() && _bottomGearSwitch.IsSwitchEnabled())
         {
             foreach (var gear in _mainGears)
             {
@@ -58,6 +85,7 @@ public class GearCircuitController : MonoBehaviour
             {
                 gear.SetGearEnabled(false);
             }
+            _invertedGear.SetGearEnabled(false);
             return;
         }
         else
@@ -66,6 +94,7 @@ public class GearCircuitController : MonoBehaviour
             {
                 gear.SetGearEnabled(true);
             }
+            _invertedGear.SetGearEnabled(true);
         }
 
         foreach (var gear in _auxiliaryGears)
@@ -78,5 +107,6 @@ public class GearCircuitController : MonoBehaviour
     {
         _topGearSwitch.OnSwitchGear -= OnSwitchGear;
         _bottomGearSwitch.OnSwitchGear -= OnSwitchGear;
+        _invertLever.OnLeverPulled -= OnLeverPulled;
     }
 }
