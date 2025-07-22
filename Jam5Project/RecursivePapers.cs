@@ -27,7 +27,7 @@ public class RecursivePapers : MonoBehaviour
         _hiddenPage.SetUnreadState();
         _textCollider.SetActivation(false);
         
-        _interactReceiver.ChangePrompt("Spread the pages");
+        _interactReceiver.ChangePrompt("Spread pages");
         _interactReceiver.OnPressInteract += OnPressInteract;
     }
 

@@ -1,10 +1,14 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using OWML.Common;
 using OWML.ModHelper;
 using OWML.Utils;
 using System.Reflection;
+using NewHorizons.Components;
+using NewHorizons.External.Modules;
+using NewHorizons.External.SerializableEnums;
 using UnityEngine;
 using NewHorizons.Utility.Files;
+using UnityEngine.InputSystem;
 
 namespace Jam5Project;
 
@@ -70,6 +74,11 @@ public class Jam5Project : ModBehaviour
             NotificationManager.SharedInstance.PostNotification(_downloadEndNotification, false);
             _downloadingTranslation = false;
         }
+        
+        if (Keyboard.current.numpadDivideKey.wasPressedThisFrame)
+        {
+            StartGameOver();
+        }
     }
 
     public void StartTranslationDownload()
@@ -82,6 +91,18 @@ public class Jam5Project : ModBehaviour
     public bool IsShrunken()
     {
         return _shrinkerController.IsPlayerShrunken();
+    }
+
+    public static void StartGameOver()
+    {
+        var gameOver = new GameOverModule
+        {
+            creditsType = NHCreditsType.Fast,
+            text =
+                "Sol never escaped, and was doomed to the same end as Mye.\n" +
+                "The button didn't work. And now the hatchling joined their fate."
+        };
+        NHGameOverManager.Instance.StartGameOverSequence(gameOver, null, Instance);
     }
 
     public static void WriteDebugMessage(object msg)

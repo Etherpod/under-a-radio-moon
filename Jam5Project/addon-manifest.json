@@ -1,3 +1,9 @@
 {
-    "$schema": "https://raw.githubusercontent.com/Outer-Wilds-New-Horizons/new-horizons/main/NewHorizons/Schemas/addon_manifest_schema.json"
+	"$schema": "https://raw.githubusercontent.com/Outer-Wilds-New-Horizons/new-horizons/main/NewHorizons/Schemas/addon_manifest_schema.json",
+	"credits": [
+		"ditzy#Story, 3D Modeling, Programming, Writing, Shaders",
+		"Ernest#Story, 3D Modeling",
+		"Etherpod#Story, 3D Modeling, Programming, Writing, Music",
+		"harperlr#Story, 3D Modeling"
+	]
 }
