@@ -7,13 +7,26 @@ public class ErnestonianText : NomaiWallText
 {
     [SerializeField]
     private bool _alwaysAllowFocus = false;
+    [SerializeField]
+    private bool _startWithAllLinesVisible = true;
+    [SerializeField]
+    private bool _startHidden = false;
 
     public override void LateInitialize()
     {
-        base.LateInitialize();
-        foreach (var line in _textLines)
+        if (_startHidden)
         {
-            line.SetUnreadState(true);
+            HideTextOnStart();
+            HideImmediate();
+        }
+        
+        base.LateInitialize();
+        
+        if (_startWithAllLinesVisible) {
+            foreach (var line in _textLines)
+            {
+                line.SetUnreadState(true);
+            }
         }
 
         string text = OWUtilities.RemoveByteOrderMark(_nomaiTextAsset);
