@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Jam5Project;
@@ -31,12 +32,13 @@ public class RecursionActivationController : MonoBehaviour
 
         if (_activatedLevers.Count == _levers.Length)
         {
-            InitiateRecursion();
+            StartCoroutine(InitiateRecursion());
         }
     }
 
-    private void InitiateRecursion()
+    private IEnumerator InitiateRecursion()
     {
+        yield return new WaitForSeconds(1.5f);
         _targetWorld.OnPressInteract();
     }
 
