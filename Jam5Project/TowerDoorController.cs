@@ -44,7 +44,6 @@ public class TowerDoorController : MonoBehaviour
         _interactReceiver.ChangePrompt("Open Door");
         _interactReceiver.OnPressInteract += OnPressInteract;
         _interactReceiver.DisableInteraction();
-        _towerAmbience.SetVolumeActivation(false);
     }
 
     private void OnSigilsUpdated(HashSet<PlanetSigil> newSigils)
@@ -76,7 +75,7 @@ public class TowerDoorController : MonoBehaviour
         if (!_opened && hasAll)
         {
             _interactReceiver.EnableInteraction();
-            _planetAmbience.SetVolumeActivation(false);
+            _planetAmbience.gameObject.SetActive(false);
         }
     }
 
@@ -104,8 +103,6 @@ public class TowerDoorController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         _towerAmbience.GetComponent<OWAudioSource>().PlayOneShot(_openDoorSound);
-        yield return new WaitForSeconds(8f);
-        _towerAmbience.SetVolumeActivation(true);
     }
 
     private bool HasRequiredSigils()

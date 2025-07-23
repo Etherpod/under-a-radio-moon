@@ -75,10 +75,10 @@ public class Jam5Project : ModBehaviour
             _downloadingTranslation = false;
         }
         
-        if (Keyboard.current.numpadDivideKey.wasPressedThisFrame)
+        /*if (Keyboard.current.numpadDivideKey.wasPressedThisFrame)
         {
             StartGameOver();
-        }
+        }*/
     }
 
     public void StartTranslationDownload()
@@ -195,7 +195,7 @@ public static class Jam5ProjectPatches
         }
     }
 
-    [HarmonyPrefix]
+    /*[HarmonyPrefix]
     [HarmonyPatch(typeof(CanvasMarker), nameof(CanvasMarker.SetVisibility))]
     public static bool DisableHUDMarker(CanvasMarker __instance, bool value)
     {
@@ -212,5 +212,5 @@ public static class Jam5ProjectPatches
             return false;
         }
         return true;
-    }
+    }*/
 }

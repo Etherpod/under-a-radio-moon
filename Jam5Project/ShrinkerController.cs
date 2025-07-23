@@ -16,6 +16,8 @@ public class ShrinkerController : MonoBehaviour
     [SerializeField]
     private AudioVolume _basePlanetAmbience;
     [SerializeField]
+    private OWAudioSource _musicOneShot;
+    [SerializeField]
     private AudioClip _shrinkMusic;
 
     private PlayerCameraController _cameraController;
@@ -147,6 +149,8 @@ public class ShrinkerController : MonoBehaviour
                             _shrunkenPlanets[0].SetTempParent(false);
                             _shrunkenPlanets.RemoveAt(0);
 
+                            Locator.GetPlayerCamera().GetComponent<PlayerCameraEffectController>().OpenEyes(1f, useFastWakeCurve: true);
+
                             if (_shrunkenPlanets.Count == 0)
                             {
                                 _basePlanet.SetActive(true);
@@ -210,6 +214,7 @@ public class ShrinkerController : MonoBehaviour
             _initialPlanetRotation = _shrunkenPlanets[0].transform.rotation;
             _initialArrivalPoint = _shrunkenPlanets[0].GetArrivalPoint().transform.position - _shrunkenPlanets[0].transform.position;
             _shrunkenPlanets[0].SetTempParent(true);
+            Locator.GetPlayerCamera().GetComponent<PlayerCameraEffectController>().OpenEyes(1f, useFastWakeCurve: true);
             if (_shrunkenPlanets.Count > 1)
             {
                 _shrunkenPlanets[1].gameObject.SetActive(false);
@@ -225,6 +230,7 @@ public class ShrinkerController : MonoBehaviour
         else
         {
             _startDistance = (_startPositions[0].position - Locator.GetPlayerTransform().position).magnitude;
+            Locator.GetPlayerCamera().GetComponent<PlayerCameraEffectController>().CloseEyes(1.5f);
             OnLeavePlanet?.Invoke(_shrunkenPlanets[0]);
         }
         _updateShrink = true;
@@ -249,7 +255,8 @@ public class ShrinkerController : MonoBehaviour
 
             Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().LockOn(planet.GetLookTarget(), 5f, false, 1f);
 
-            _basePlanetAmbience.GetComponent<OWAudioSource>().PlayOneShot(_shrinkMusic, 1f);
+            _musicOneShot.PlayOneShot(_shrinkMusic, 1f);
+            Locator.GetPlayerCamera().GetComponent<PlayerCameraEffectController>().CloseEyes(2f);
         }
         else
         {
@@ -258,7 +265,7 @@ public class ShrinkerController : MonoBehaviour
 
         OWInput.ChangeInputMode(InputMode.None);
         _shrinkAfterDelay = true;
-        _startShrinkTime = Time.time + 0.5f;
+        _startShrinkTime = Time.time + (setShrunk ? 0.4f : 2f);
     }
 
     public bool IsPlayerShrunken()

@@ -16,7 +16,7 @@ public class AnimatedPaper : MonoBehaviour
     [SerializeField]
     private NomaiTextLine _hiddenPage = null;
     [SerializeField]
-    private AudioVolume _planetAmbience = null;
+    private OWAudioSource _planetAmbience = null;
     [SerializeField]
     private string _promptText = null;
     [SerializeField]
@@ -32,7 +32,6 @@ public class AnimatedPaper : MonoBehaviour
         
         _hiddenPage.SetUnreadState();
         _textCollider.SetActivation(false);
-        if (_planetAmbience != null) _planetAmbience.SetVolumeActivation(false);
         
         _interactReceiver.ChangePrompt(_promptText);
         _interactReceiver.OnPressInteract += OnPressInteract;
@@ -54,7 +53,7 @@ public class AnimatedPaper : MonoBehaviour
         _interactReceiver.DisableInteraction();
         _ernestonianText.ShowImmediate();
         _textCollider.SetActivation(true);
-        if (_planetAmbience != null) _planetAmbience.SetVolumeActivation(true);
+        if (_planetAmbience != null) _planetAmbience.Play();
         
         _animator.SetBool(_animationTriggerName, true);
     }
