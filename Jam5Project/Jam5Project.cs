@@ -99,14 +99,16 @@ public class Jam5Project : ModBehaviour
         {
             creditsType = NHCreditsType.Fast,
             text =
-                "Sol never escaped, and was doomed to the same end as Mye.\n" +
-                "The button didn't work. And now the hatchling joined their fate."
+                "The button didn't work. With no other escape, you are doomed to the same fate as Sol and Mye.\n" +
+                "Trapped on a world smaller than a speck of dust, you wait helplessly for your oxygen to run out.",
+            length = 8f
         };
         NHGameOverManager.Instance.StartGameOverSequence(gameOver, null, Instance);
     }
 
     public static void WriteDebugMessage(object msg)
     {
+        return;
         msg ??= "null";
         Instance.ModHelper.Console.WriteLine(msg.ToString());
     }
@@ -193,6 +195,13 @@ public static class Jam5ProjectPatches
                 material.shader = replacementShader;
             }
         }
+    }
+
+    [HarmonyPrefix]
+    [HarmonyPatch(typeof(MapController), nameof(MapController.EnterMapView))]
+    public static bool PreventMapWhenShrunk()
+    {
+        return !Jam5Project.Instance.IsShrunken();
     }
 
     /*[HarmonyPrefix]

@@ -29,35 +29,35 @@
       "id": "URM_TOWER_PLANET",
       "position": {
         "x": -300,
-        "y": -400
+        "y": -300
       }
     },
     {
       "id": "URM_RADIO_PLANET",
       "position": {
         "x": -100,
-        "y": -400
+        "y": -300
       }
     },
     {
       "id": "URM_GRASS_PLANET",
       "position": {
         "x": 100,
-        "y": -400
+        "y": -300
       }
     },
     {
       "id": "URM_GEAR_PLANET",
       "position": {
         "x": 300,
-        "y": -400
+        "y": -300
       }
     },
     {
       "id": "URM_RECURSIVE_PLANET",
       "position": {
         "x": -200,
-        "y": -800
+        "y": -600
       }
     }
   ]

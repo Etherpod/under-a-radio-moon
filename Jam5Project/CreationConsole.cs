@@ -13,7 +13,7 @@ public class CreationConsole : MonoBehaviour
     {
         if (interactReceiver == null) interactReceiver = gameObject.GetRequiredComponentInChildren<InteractReceiver>();
 
-        interactReceiver.ChangePrompt("Press big button");
+        interactReceiver.ChangePrompt("Press Big Button");
         interactReceiver.OnPressInteract += OnButtonPressed;
     }
 

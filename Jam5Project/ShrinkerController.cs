@@ -254,6 +254,7 @@ public class ShrinkerController : MonoBehaviour
             _shrunkenPlanets.Insert(0, planet);
 
             Locator.GetPlayerTransform().GetComponent<PlayerLockOnTargeting>().LockOn(planet.GetLookTarget(), 5f, false, 1f);
+            Locator.GetMapController().ExitMapView();
 
             _musicOneShot.PlayOneShot(_shrinkMusic, 1f);
             Locator.GetPlayerCamera().GetComponent<PlayerCameraEffectController>().CloseEyes(2f);

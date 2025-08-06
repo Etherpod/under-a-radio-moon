@@ -21,6 +21,8 @@ public class AnimatedPaper : MonoBehaviour
     private string _promptText = null;
     [SerializeField]
     private string _animationTriggerName = null;
+    [SerializeField]
+    private string _revealFact = null;
 
     private OWCollider _textCollider;
 
@@ -53,6 +55,7 @@ public class AnimatedPaper : MonoBehaviour
         _interactReceiver.DisableInteraction();
         _ernestonianText.ShowImmediate();
         _textCollider.SetActivation(true);
+        if (_revealFact != null) Locator.GetShipLogManager().RevealFact(_revealFact);
         if (_planetAmbience != null) _planetAmbience.Play();
         
         _animator.SetBool(_animationTriggerName, true);
